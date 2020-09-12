@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "baseUrl": "./src",
+    "target": "ES2018",
+    "esModuleInterop": true
+  },
+  "forceConsistentCasingInFileNames": true,
+  "include": ["src/**/*"],
+  "strict": true
+}

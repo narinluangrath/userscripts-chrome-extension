@@ -1,0 +1,44 @@
+{
+  "name": "script-runner-chrome-extension",
+  "version": "0.0.1",
+  "description": "Run custom javascript on websites",
+  "main": "background.js",
+  "author": "Narin Luangrath <narin.luangrath@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "lint": "eslint --fix",
+    "format": "pretty-quick",
+    "dev:options": "parcel src/options.html",
+    "dev:popup": "parcel src/popup.html",
+    "build:options": "parcel build src/options.html",
+    "build:popup": "parcel build src/popup.html",
+    "build:ts": "parcel build src/background.ts && parcel build src/content.ts",
+    "compile": "rm -f dist/* && yarn build:options && yarn build:popup && yarn build:ts && cp -r src/manifest.json src/popup.html src/icons dist",
+    "test": "jest src"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn format --staged",
+      "pre-push": "yarn lint && yarn format"
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.13",
+    "@types/node": "^14.10.1",
+    "@types/react": "^16.9.49",
+    "@types/react-dom": "^16.9.8",
+    "eslint": "^7.2.0",
+    "husky": "^4.2.5",
+    "jest": "^26.4.2",
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^2.0.5",
+    "pretty-quick": "^2.0.1",
+    "ts-jest": "^26.3.0",
+    "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
