@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Script Runner Chrome Extension",
   "version": "0.0.1",
-  "description": "A plain text description",
+  "description": "Run custom javascript on websites",
   "browser_action": {
     "default_icon": {
       "16": "icons/icon-16.png",
