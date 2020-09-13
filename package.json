@@ -14,7 +14,8 @@
     "build:options": "parcel build src/options.html",
     "build:popup": "parcel build src/popup.html",
     "build:ts": "parcel build src/background.ts && parcel build src/content.ts",
-    "compile": "rm -f dist/* && yarn build:options && yarn build:popup && yarn build:ts && cp -r src/manifest.json src/popup.html src/icons dist",
+    "compile:dev": "NODE_ENV=development rm -rf dist/* && yarn build:options --no-minify && yarn build:popup --no-minify && yarn build:ts --no-minify && cp -r src/manifest.json src/popup.html src/icons dist",
+    "compile": "rm -rf dist/* && yarn build:options && yarn build:popup && yarn build:ts && cp -r src/manifest.json src/popup.html src/icons dist",
     "test": "jest src"
   },
   "husky": {
@@ -38,7 +39,16 @@
     "typescript": "^4.0.2"
   },
   "dependencies": {
+    "@isomorphic-git/lightning-fs": "^4.3.0",
+    "isomorphic-git": "^1.7.6",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "userscript-meta": "^1.0.1"
+  },
+  "browserslist": [
+    "last 1 Chrome version"
+  ],
+  "notes": {
+    "browserslist": "https://flaviocopes.com/parcel-regeneratorruntime-not-defined/"
   }
 }
