@@ -1,0 +1,41 @@
+// https://dribbble.com/shots/10689249-Omni-Card-Creation
+$color: (
+  "lightLavender": #bcc4d8,
+  "lavender": #8f96b2,
+  "darkLavender": #4b4d8c,
+  "brown": #625253,
+  "orange": #f69b19,
+  "lightPink": #fbe7e6,
+  "darkPink": #dd6c68,
+  "white": #ffffff,
+  "grey": #ebecf2,
+  "black": #221c1f,
+);
+
+// https://css-tricks.com/almanac/properties/b/box-shadow/
+$boxShadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+  0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+  0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+  0 100px 80px rgba(0, 0, 0, 0.12);
+
+$borderRadius: (
+  "medium": 0.8rem,
+);
+
+// https://developer.mozilla.org/en-US/docs/Web/CSS/font-variation-settings
+$font-size: (
+  "small": 0.8rem,
+  "medium": 1.2rem,
+  "large": 1.6rem,
+);
+
+$font-weight: (
+  "light": "wght" 300,
+  "bold": "wght" 500,
+);
+
+$spacing: (
+  "small": 0.5rem,
+  "medium": 1rem,
+  "large": 1.5rem,
+);

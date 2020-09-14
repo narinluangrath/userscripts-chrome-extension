@@ -1,0 +1,23 @@
+@use 'sass:map';
+@use 'variables' as vars;
+
+@font-face {
+  font-family: "Rubik";
+  src: url("./Rubik-VariableFont_wght.ttf");
+}
+
+::root {
+  font-size: 10px;
+}
+
+html {
+  background-color: map.get(vars.$color, "lightLavender");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 1.2rem;
+  font-family: "Rubik", "Roboto";
+}
