@@ -10,7 +10,7 @@ import { clone as _clone, log as _log, fetch as _fetch } from "isomorphic-git";
 import http from "isomorphic-git/http/web";
 import FS from "@isomorphic-git/lightning-fs";
 
-import { ReadCommitResult } from "./types";
+import { ReadCommitResult } from "../types";
 
 export class GitRepo {
   url: string;

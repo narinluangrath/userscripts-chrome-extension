@@ -1,4 +1,4 @@
-import { MatchPattern } from './match-pattern';
+import { MatchPattern } from "./match-pattern";
 
 const patterns = [
   ["http://*/*", "http://www.google.com/", true],
@@ -19,19 +19,19 @@ const patterns = [
 ];
 
 const badPatterns = [
-  'http://www.google.com',
-  'http://*foo/bar',
-  'http://foo.*.bar/baz',
-  'http:/bar',
-  'foo://*',
-]
+  "http://www.google.com",
+  "http://*foo/bar",
+  "http://foo.*.bar/baz",
+  "http:/bar",
+  "foo://*",
+];
 
-describe('MatchPattern', () => {
-  it.each(patterns)('%s: isMatch(%s) is %s', (pattern, url, isMatch) => {
+describe("MatchPattern", () => {
+  it.each(patterns)("%s: isMatch(%s) is %s", (pattern, url, isMatch) => {
     const matchPattern = new MatchPattern(pattern as string);
     expect(matchPattern.isMatch(url as string)).toBe(isMatch as boolean);
   });
-  it.each(badPatterns)('Throws on bad pattern %s', (pattern) => {
+  it.each(badPatterns)("Throws on bad pattern %s", (pattern) => {
     expect(() => new MatchPattern(pattern as string)).toThrow();
   });
-})
+});

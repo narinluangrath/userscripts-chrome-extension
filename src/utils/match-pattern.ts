@@ -20,7 +20,7 @@ export class MatchPattern {
   static parseParts(matchPatternStr: string): MatchPatternParts {
     /**
      * When using the contructor function (e.g. new RegExp("foo"))
-     * instead of the literal notation (e.g. /foo/) use two slashes 
+     * instead of the literal notation (e.g. /foo/) use two slashes
      * to escape a character instead of one.
      * https://stackoverflow.com/a/17863171
      */
@@ -37,7 +37,7 @@ export class MatchPattern {
     }
 
     /** TS can't parse capture groups apparently */
-    return match.groups as unknown as MatchPatternParts;
+    return (match.groups as unknown) as MatchPatternParts;
   }
 
   constructor(matchPatternStr: string) {

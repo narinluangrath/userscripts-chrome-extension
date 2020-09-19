@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 import { POPUP_ID } from "./constants";
 import { isPopupOpen } from "./state";
-import { BEM } from "./bem";
+import { BEM } from "./utils";
 import style from "./popup.module.scss";
 
 const bem = new BEM(style);
