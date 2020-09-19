@@ -11,15 +11,6 @@ import { ICON_CLICK } from "./constants";
  * https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState
  */
 
-// import { GitRepo } from "./git-repo";
-// const repo = new GitRepo("https://github.com/narinluangrath/victory-gui");
-
-// repo
-//   .clone()
-//   .then(() => repo.readFile("/dist/main.js"))
-//   .then(console.log)
-//   .catch(console.error);
-
 /** Run `popup.tsx` when user clicks extension icon */
 chrome.browserAction.onClicked.addListener((tab) => {
   const { id } = tab;

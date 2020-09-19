@@ -1,10 +1,10 @@
-/** 
+/**
  * Compiled into options.html
  */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-const App = () => <p>Options</p>;
+const Options = () => <p>Options</p>;
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Options />, document.getElementById("root"));
