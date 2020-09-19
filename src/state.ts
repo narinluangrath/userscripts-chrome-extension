@@ -71,9 +71,7 @@ export function useGitUserScripts() {
     repo
       .clone()
       .then(() => repo.readdir(GIT_REPO_USER_SCRIPTS_PATH))
-      .then((files) =>
-        files.map((file) => `${GIT_REPO_USER_SCRIPTS_PATH}/${file}`)
-      )
+      .then((fs) => fs.map((f) => `${GIT_REPO_USER_SCRIPTS_PATH}/${f}`))
       .then((_paths) => {
         setPaths(_paths);
         return _paths;
