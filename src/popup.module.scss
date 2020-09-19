@@ -1,0 +1,13 @@
+:global(#POPUP_ID) * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:global(#POPUP_ID) .popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 250px;
+  padding: 20px;
+}

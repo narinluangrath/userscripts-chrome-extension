@@ -1,3 +1,5 @@
+import { ICON_CLICK } from "./constants";
+
 /**
  * The main script for the chrome extension
  * Attaches event handlers
@@ -29,5 +31,6 @@ chrome.browserAction.onClicked.addListener((tab) => {
    */
   if (id) {
     chrome.tabs.executeScript(id, { file: "/popup.js", runAt: "document_end" });
+    chrome.tabs.sendMessage(id, { type: ICON_CLICK });
   }
 });

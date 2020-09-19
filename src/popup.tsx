@@ -2,13 +2,29 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import { POPUP_ID } from "./constants";
-import { isPopupOpen } from "./state";
+import { useIsPopupOpen } from "./state";
 import { BEM } from "./utils";
+import { css } from "./css";
 import style from "./popup.module.scss";
 
-const bem = new BEM(style);
+const bem = new BEM(style).getter;
 
-/** The actual rendered popup */
-export const Popup: React.FC = () => <div className={bem.get("popup")}></div>;
+export const Popup: React.FC = () => {
+  return (
+    <div>
+      <style>{css}</style>
+      <div id={POPUP_ID}>
+        <div className={bem("popup", null, [], "rbl-panel")}>
+          <h1 className="rbl-header-3">User Scripts &nbsp;📝</h1>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-ReactDOM.render(<Popup />, document.body);
+const PopupWrapper: React.FC = () => {
+  const isOpen = useIsPopupOpen();
+  return isOpen ? <Popup /> : null;
+};
+
+// ReactDOM.render(<PopupWrapper />, document.body);
