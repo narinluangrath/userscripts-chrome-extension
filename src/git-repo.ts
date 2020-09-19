@@ -1,7 +1,7 @@
 /**
  * A browser implementation of a file system + git repo
  *
- * Relevent documentation:
+ * Relevent docs:
  * - https://isomorphic-git.org/docs/en/clone
  * - https://github.com/isomorphic-git/lightning-fs/blob/main/README.md
  */

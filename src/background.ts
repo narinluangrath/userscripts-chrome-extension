@@ -1,19 +1,33 @@
 /**
- * Runs when:
- * - The extension is installed/updated
- * - An event is dispatched
- * - A content script sends a message
- * - Popup calls runtime.getBackgroundPage
+ * The main script for the chrome extension
+ * Attaches event handlers
  *
+ * Relevent links:
  * https://developer.chrome.com/extensions/background_pages
+ * https://developer.chrome.com/extensions/tabs#method-executeScript
+ * https://developer.chrome.com/extensions/browserAction#event-onClicked
+ * https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState
  */
 
-import { GitRepo } from "./git-repo";
+// import { GitRepo } from "./git-repo";
+// const repo = new GitRepo("https://github.com/narinluangrath/victory-gui");
 
-const repo = new GitRepo("https://github.com/narinluangrath/victory-gui");
+// repo
+//   .clone()
+//   .then(() => repo.readFile("/dist/main.js"))
+//   .then(console.log)
+//   .catch(console.error);
 
-repo
-  .clone()
-  .then(() => repo.readFile("/dist/main.js"))
-  .then(console.log)
-  .catch(console.error);
+/** Run `popup.tsx` when user clicks extension icon */
+chrome.browserAction.onClicked.addListener((tab) => {
+  const { id } = tab;
+  /**
+   * Tab IDs are unique within a browser session.
+   * Under some circumstances a tab may not be assigned an ID;
+   * for example, when querying foreign tabs using the sessions API,
+   * in which case a session ID may be present.
+   */
+  if (id) {
+    chrome.tabs.executeScript(id, { file: "/popup.js", runAt: "document_end" });
+  }
+});

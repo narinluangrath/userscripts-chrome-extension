@@ -1,10 +1,14 @@
-/**
- * Compiled into popup.html
- */
+import React from "react";
+import ReactDOM from "react-dom";
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { POPUP_ID } from "./constants";
+import { isPopupOpen } from "./state";
+import { BEM } from "./bem";
+import style from "./popup.module.scss";
 
-const App = () => <p>Popup</p>;
+const bem = new BEM(style);
 
-ReactDOM.render(<App />, document.getElementById('root'));
+/** The actual rendered popup */
+export const Popup: React.FC = () => <div className={bem.get("popup")}></div>;
+
+ReactDOM.render(<Popup />, document.body);
