@@ -1,4 +1,4 @@
-# User Scripts Chrome Extension
+# Userscript Chrome Extension
 
 Like [Tampermonkey][1] except it pulls your user scripts from GitHub.
 

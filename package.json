@@ -1,7 +1,7 @@
 {
-  "name": "script-runner-chrome-extension",
+  "name": "userscripts-chrome-extension",
   "version": "0.0.1",
-  "description": "Run custom javascript on websites",
+  "description": "Userscript manager",
   "main": "background.js",
   "author": "Narin Luangrath <narin.luangrath@gmail.com>",
   "license": "MIT",
