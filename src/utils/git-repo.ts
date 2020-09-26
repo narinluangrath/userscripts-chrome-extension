@@ -12,11 +12,6 @@ import FS from "@isomorphic-git/lightning-fs";
 
 import { ReadCommitResult } from "../types";
 
-function toDirectoryName(s: string): string {
-  const invalidChars = /[^a-zA-Z0-9]/g;
-  return s.replace(invalidChars, "_");
-}
-
 export class GitRepo {
   url: string;
   fs: FS;
@@ -25,11 +20,11 @@ export class GitRepo {
   private _remote: string;
   private _corsProxy: string;
 
-  constructor(url: string) {
+  constructor(url: string, fsOps?: object) {
     this.url = url;
-    this.fs = new FS(url);
+    this.fs = new FS(url, fsOps);
     this.lastFetched = null;
-    this._dir = toDirectoryName(url);
+    this._dir = "/";
     this._remote = "origin";
     this._corsProxy = "https://cors.isomorphic-git.org";
   }
