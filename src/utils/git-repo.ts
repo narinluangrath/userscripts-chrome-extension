@@ -12,10 +12,14 @@ import FS from "@isomorphic-git/lightning-fs";
 
 import { ReadCommitResult } from "../types";
 
+function toDirectoryName(s: string): string {
+  const invalidChars = /[^a-zA-Z0-9]/g;
+  return s.replace(invalidChars, "_");
+}
+
 export class GitRepo {
   url: string;
   fs: FS;
-  isCloned: boolean;
   lastFetched: Date | null;
   private _dir: string;
   private _remote: string;
@@ -24,14 +28,13 @@ export class GitRepo {
   constructor(url: string) {
     this.url = url;
     this.fs = new FS(url);
-    this.isCloned = false;
     this.lastFetched = null;
-    this._dir = "/";
-    this._remote = "script-runner";
+    this._dir = toDirectoryName(url);
+    this._remote = "origin";
     this._corsProxy = "https://cors.isomorphic-git.org";
   }
 
-  _getDefaultParams() {
+  get _getDefaultParams() {
     return {
       http,
       /** isomorphic-git doesn't like .git suffix */
@@ -43,15 +46,27 @@ export class GitRepo {
     };
   }
 
+  isCloned(): Promise<boolean> {
+    return this.readdir(this._dir).then((arr) => !!(arr && arr.length));
+  }
+
   clone(opts?: object): Promise<void> {
-    return _clone({ ...this._getDefaultParams(), ...opts }).then(() => {
-      this.isCloned = true;
+    return _clone({ ...this._getDefaultParams, ...opts }).then(() => {
+      this.lastFetched = new Date();
+    });
+  }
+
+  fetch(opts?: object): Promise<void> {
+    return _fetch({
+      ...this._getDefaultParams,
+      ...opts,
+    }).then(() => {
       this.lastFetched = new Date();
     });
   }
 
   log(opts?: object): Promise<Array<ReadCommitResult>> {
-    const { fs, dir } = this._getDefaultParams();
+    const { fs, dir } = this._getDefaultParams;
     return _log({
       fs,
       dir,
@@ -59,20 +74,7 @@ export class GitRepo {
     });
   }
 
-  fetch(opts?: object): Promise<void> {
-    return _fetch({
-      ...this._getDefaultParams(),
-      ...opts,
-    }).then(() => {
-      this.lastFetched = new Date();
-    });
-  }
-
   getHead(): Promise<ReadCommitResult> {
-    if (!this.isCloned) {
-      // https://www.youtube.com/watch?v=ap3hwt-BcyM
-      return Promise.reject("Must execute .clone() first");
-    }
     return this.log({ depth: 1 }).then((res) => res[0]);
   }
 

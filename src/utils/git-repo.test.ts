@@ -2,7 +2,7 @@ import {
   clone,
   fetch,
   mockReadCommitResult,
-} from "../__mocks__/isomorphic-git";
+} from "../../__mocks__/isomorphic-git";
 
 import { GitRepo } from "./git-repo";
 
@@ -15,12 +15,6 @@ describe("GitRepo", () => {
       await repo.clone();
       expect(repo.lastFetched).toBeInstanceOf(Date);
       expect(clone).toHaveBeenCalledTimes(1);
-    });
-    it("sets .isCloned", async () => {
-      const repo = new GitRepo(URL);
-      expect(repo.isCloned).toBe(false);
-      await repo.clone();
-      expect(repo.isCloned).toBe(true);
     });
     it("sets .lastFetched", async () => {
       const repo = new GitRepo(URL);

@@ -11,23 +11,21 @@ const cssModule = {
 
 describe("BEM", () => {
   it("parses block", () => {
-    const bem = new BEM(cssModule);
-    expect(bem.get("block")).toEqual("block");
-    expect(bem.get("block", null, ["modifier"])).toEqual(
-      "block block--modifier"
-    );
-    expect(bem.get("block", null, ["modifier", "modifier2"])).toEqual(
+    const bem = new BEM(cssModule).getter;
+    expect(bem("block")).toEqual("block");
+    expect(bem("block", null, ["modifier"])).toEqual("block block--modifier");
+    expect(bem("block", null, ["modifier", "modifier2"])).toEqual(
       "block block--modifier block--modifier2"
     );
   });
 
   it("parses element", () => {
-    const bem = new BEM(cssModule);
-    expect(bem.get("block", "element")).toEqual("block__element");
-    expect(bem.get("block", "element", ["modifier"])).toEqual(
+    const bem = new BEM(cssModule).getter;
+    expect(bem("block", "element")).toEqual("block__element");
+    expect(bem("block", "element", ["modifier"])).toEqual(
       "block__element block__element--modifier"
     );
-    expect(bem.get("block", "element", ["modifier", "modifier2"])).toEqual(
+    expect(bem("block", "element", ["modifier", "modifier2"])).toEqual(
       "block__element block__element--modifier block__element--modifier2"
     );
   });
