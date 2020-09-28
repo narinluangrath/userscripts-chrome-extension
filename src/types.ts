@@ -48,5 +48,5 @@ export type UserScript = {
   id: string;
   filename: string;
   script: string;
-  metadata: Metadata;
+  metadata: SupportedMetadata;
 };
