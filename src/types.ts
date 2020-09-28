@@ -1,26 +1,52 @@
-/** https://isomorphic-git.org/docs/en/log */
-
+// https://isomorphic-git.org/docs/en/log
 export type CommitObject = {
-  message: string; // Commit message
-  tree: string; // SHA-1 object id of corresponding file tree
-  parent: Array<string>; // an array of zero or more SHA-1 object ids
+  message: string;
+  tree: string;
+  parent: Array<string>;
   author: {
-    name: string; // The author's name
-    email: string; // The author's email
-    timestamp: number; // UTC Unix timestamp in seconds
-    timezoneOffset: number; // Timezone difference from UTC in minutes
+    name: string;
+    email: string;
+    timestamp: number;
+    timezoneOffset: number;
   };
   committer: {
-    name: string; // The committer's name
-    email: string; // The committer's email
-    timestamp: number; // UTC Unix timestamp in seconds
-    timezoneOffset: number; // Timezone difference from UTC in minutes
+    name: string;
+    email: string;
+    timestamp: number;
+    timezoneOffset: number;
   };
-  gpgsig?: string; // PGP signature (if present)
+  gpgsig?: string;
 };
 
 export type ReadCommitResult = {
-  oid: string; // SHA-1 object id of this commit
-  commit: CommitObject; // the parsed commit object
-  payload: string; // PGP signing payload
+  oid: string;
+  commit: CommitObject;
+  payload: string;
+};
+
+// https://wiki.greasespot.net/Metadata_Block
+export type SupportedMetadata = {
+  description?: string;
+  match?: string;
+  name?: string;
+  "run-at"?: "document-end" | "document-start" | "document-idle";
+  version?: string;
+};
+
+export type Metadata = SupportedMetadata & {
+  exclude?: string | RegExp;
+  grant?: string;
+  icon?: string;
+  include?: string | RegExp;
+  namespace?: string;
+  noframes?: boolean;
+  require?: string;
+  resource?: string;
+};
+
+export type UserScript = {
+  id: string;
+  filename: string;
+  script: string;
+  metadata: Metadata;
 };
