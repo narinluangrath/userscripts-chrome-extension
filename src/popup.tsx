@@ -21,28 +21,29 @@ export const Popup: React.FC<PopupProps> = ({
 }) => {
   return (
     <div>
-      <div className={bem("popup", null, [], "rbl-panel")}>
-        <h1>User Scripts</h1>
-        <table>
-          <thead className={style.visuallyHidden}>
-            <tr>
-              <th>Script Name</th>
-              <th>Enabled</th>
+      <h1>User Scripts</h1>
+      <table>
+        <thead className={style.visuallyHidden}>
+          <tr>
+            <th>Script Name</th>
+            <th>Enabled</th>
+          </tr>
+        </thead>
+        <tbody>
+          {userScripts.map((us) => (
+            <tr key={us.id}>
+              <td>{us.metadata.name || us.filename}</td>
+              <td>
+                <button onClick={() => toggleUserScript(us)}>
+                  {isUserScriptEnabled(us) ? "On" : "Off"}
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {userScripts.map((us) => (
-              <tr key={us.id}>
-                <td>{us.metadata.name || us.filename}</td>
-                <td>
-                  <button onClick={() => toggleUserScript(us)}>
-                    {isUserScriptEnabled(us) ? "On" : "Off"}
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          ))}
+        </tbody>
+      </table>
+      <div>
+        <button>⚙️</button>
       </div>
     </div>
   );
