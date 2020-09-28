@@ -12,7 +12,7 @@
     "dev:options": "parcel src/options.html",
     "dev:popup": "parcel src/popup.html",
     "build:options": "parcel build src/options.html",
-    "build:popup": "parcel build src/popup.tsx",
+    "build:popup": "parcel build src/popup.html",
     "build:ts": "parcel build src/background.ts && parcel build src/content.ts",
     "compile": "rm -rf dist/* && yarn build:options && yarn build:popup && yarn build:ts && cp -r manifest.json src/icons dist",
     "storybook": "start-storybook -p 6006",

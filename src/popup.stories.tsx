@@ -1,12 +1,43 @@
 import React from "react";
 import { Meta, Story } from "@storybook/react/types-6-0";
 
-import { Popup } from "./popup";
+import { Popup, PopupProps } from "./popup";
 
 export default {
   title: "Popup",
+  component: Popup,
 } as Meta;
 
-const Template: Story = (args) => <Popup {...args} />;
+const Template: Story<PopupProps> = (args) => <Popup {...args} />;
 
 export const Demo = Template.bind({});
+Demo.args = {
+  userScripts: [
+    {
+      id: "1",
+      filename: "",
+      script: "",
+      metadata: {
+        name: "script-1",
+      },
+    },
+    {
+      id: "2",
+      filename: "",
+      script: "",
+      metadata: {
+        name: "script-2",
+      },
+    },
+    {
+      id: "3",
+      filename: "",
+      script: "",
+      metadata: {
+        name: "script-3",
+      },
+    },
+  ],
+  isUserScriptEnabled: (us) => us.id !== "3",
+  toggleUserScript: () => {},
+};

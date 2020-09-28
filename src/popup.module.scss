@@ -1,13 +1,10 @@
-:global(#POPUP_ID) * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-:global(#POPUP_ID) .popup {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 250px;
-  padding: 20px;
+// https://www.a11yproject.com/posts/2013-01-11-how-to-hide-content/
+.visuallyHidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
