@@ -1,3 +1,9 @@
 .scriptName {
   display: block;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.scriptName.isOpen {
+  opacity: 1;
 }

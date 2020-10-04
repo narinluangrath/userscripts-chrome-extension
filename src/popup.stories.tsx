@@ -1,5 +1,6 @@
 import React from "react";
 import { Meta, Story } from "@storybook/react/types-6-0";
+import { action } from "@storybook/addon-actions";
 
 import { Popup, PopupProps } from "./popup";
 
@@ -39,5 +40,6 @@ Demo.args = {
     },
   ],
   isUserScriptEnabled: (us) => us.id !== "3",
-  toggleUserScript: () => {},
+  toggleUserScript: action("toggleUserScript"),
+  onSettingsClick: action("onSettingsclick"),
 };

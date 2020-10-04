@@ -1,5 +1,6 @@
 import React from "react";
 import { Meta, Story } from "@storybook/react/types-6-0";
+import { action } from "@storybook/addon-actions";
 
 import { getTestUserScript, getTestUserScripts } from "./utils";
 import {
@@ -23,7 +24,7 @@ export const LeftRailDemo: Story<LeftRailProps> = (args) => (
 LeftRailDemo.args = {
   userScripts: getTestUserScripts(),
   isUserScriptOpen: (us) => us.id === "1",
-  onUserScriptClick: () => {},
+  onUserScriptClick: action("onUserScriptClick"),
 };
 
 export const MainDemo: Story<MainProps> = (args) => <Main {...args} />;
@@ -34,8 +35,8 @@ MainDemo.args = {
 export const TopDemo: Story<TopProps> = (args) => <Top {...args} />;
 TopDemo.args = {
   gitRepoUrl: "https://github.com/narinluangrath/userscripts-chrome-extension",
-  onRefreshClick: () => {},
-  handleGitRepoUrlSubmit: () => {},
+  onRefreshClick: action("onRefreshClick"),
+  handleGitRepoUrlSubmit: action("handleGitRepoUrlSubmit"),
 };
 
 export const RightRailDemo: Story<RightRailProps> = (args) => (
@@ -44,11 +45,11 @@ export const RightRailDemo: Story<RightRailProps> = (args) => (
 RightRailDemo.args = {
   userScript: getTestUserScript(),
   isDisabledGlobally: true,
-  toggleDisabledGlobally: () => {},
+  toggleDisabledGlobally: action("toggleDisabledGlobally"),
   disabledDomains: [
     "https://google.com/",
     "http://example.org/foo/bar.html",
     "http://127.0.0.1/",
   ],
-  removeDisabledDomain: () => {},
+  removeDisabledDomain: action("removeDisabledDomain"),
 };

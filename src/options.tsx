@@ -1,4 +1,5 @@
 import React from "react";
+import cx from "classnames";
 
 import { UserScript } from "./types";
 import style from "./options.module.scss";
@@ -18,7 +19,14 @@ export const LeftRail: React.FC<LeftRailProps> = ({
     <nav>
       <ul>
         {userScripts.map((us) => (
-          <li key={us.id} className={style.scriptName}>
+          <li
+            key={us.id}
+            onClick={() => onUserScriptClick(us)}
+            className={cx(
+              style.scriptName,
+              isUserScriptOpen(us) && style.isOpen
+            )}
+          >
             <code>{us.metadata.name || us.filename}</code>
             <small>{us.metadata.version}</small>
           </li>
@@ -75,7 +83,7 @@ export const RightRail: React.FC<RightRailProps> = ({
   removeDisabledDomain,
 }) => (
   <aside>
-    <header>Metadata</header>
+    <h1>Metadata</h1>
     <table>
       <thead>
         <tr>
@@ -94,8 +102,11 @@ export const RightRail: React.FC<RightRailProps> = ({
     </table>
     <div>
       <button onClick={toggleDisabledGlobally}>
-        {isDisabledGlobally ? "Always OFF" : "On"}
+        {isDisabledGlobally
+          ? "Globally OFF"
+          : "On (Unless visiting disabled domain)"}
       </button>
+      <h2>Disabled Domains</h2>
       <ul>
         {disabledDomains.map((domain) => (
           <li>

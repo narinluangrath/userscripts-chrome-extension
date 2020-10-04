@@ -12,12 +12,14 @@ export interface PopupProps {
   userScripts: UserScript[];
   isUserScriptEnabled: (us: UserScript) => boolean;
   toggleUserScript: (us: UserScript) => void;
+  onSettingsClick: () => void;
 }
 
 export const Popup: React.FC<PopupProps> = ({
   userScripts,
   isUserScriptEnabled,
   toggleUserScript,
+  onSettingsClick,
 }) => {
   return (
     <div>
@@ -43,7 +45,7 @@ export const Popup: React.FC<PopupProps> = ({
         </tbody>
       </table>
       <div>
-        <button>⚙️</button>
+        <button onClick={onSettingsClick}>⚙️</button>
       </div>
     </div>
   );
