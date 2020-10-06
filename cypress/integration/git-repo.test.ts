@@ -5,6 +5,7 @@ import { GitRepo } from "../../src/utils";
 const repoURL =
   "https://github.com/narinluangrath/userscripts-chrome-extension";
 
+// @ts-ignore
 describe("GitRepo", { timeout: 10000 }, () => {
   it(".isCloned() returns true after cloning", async () => {
     const gr = new GitRepo(repoURL, { wipe: true });

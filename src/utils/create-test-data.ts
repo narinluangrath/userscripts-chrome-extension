@@ -1,6 +1,6 @@
 import { UserScript } from "../types";
 
-export const getTestUserScript: () => UserScript = (id = 1) => ({
+export const getTestUserScript = (id = 1): UserScript => ({
   id: id.toString(),
   filename: "filename.js",
   script: "() => {}",
