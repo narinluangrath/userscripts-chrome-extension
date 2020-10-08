@@ -1,16 +1,18 @@
 import React from "react";
 import cx from "classnames";
 
+import { useGetStorage, useSetStorage } from "./hooks";
+import { REPO_KEY } from "./constants";
 import { UserScript } from "./types";
 import style from "./options.module.scss";
 
-export interface LeftRailProps {
+export interface LeftProps {
   userScripts: UserScript[];
   isUserScriptOpen: (us: UserScript) => boolean;
   onUserScriptClick: (us: UserScript) => void;
 }
 
-export const LeftRail: React.FC<LeftRailProps> = ({
+export const Left: React.FC<LeftProps> = ({
   userScripts,
   isUserScriptOpen,
   onUserScriptClick,
@@ -36,11 +38,11 @@ export const LeftRail: React.FC<LeftRailProps> = ({
   </aside>
 );
 
-export interface MainProps {
+export interface CenterProps {
   userScript: UserScript;
 }
 
-export const Main: React.FC<MainProps> = ({ userScript }) => (
+export const Center: React.FC<CenterProps> = ({ userScript }) => (
   <main>
     <header>{userScript.metadata.name || userScript.filename}</header>
     <code>{userScript.script}</code>
@@ -50,7 +52,7 @@ export const Main: React.FC<MainProps> = ({ userScript }) => (
 export interface TopProps {
   gitRepoUrl: string;
   onRefreshClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  handleGitRepoUrlSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleGitRepoUrlSubmit: (repo: string) => void;
 }
 
 export const Top: React.FC<TopProps> = ({
@@ -60,14 +62,21 @@ export const Top: React.FC<TopProps> = ({
 }) => (
   <aside>
     <button onClick={onRefreshClick}>Refetch</button>
-    <form onSubmit={handleGitRepoUrlSubmit}>
-      <input value={gitRepoUrl} />
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        const form = new FormData(e.currentTarget);
+        const repo = form.get("repo") as string;
+        handleGitRepoUrlSubmit(repo);
+      }}
+    >
+      <input value={gitRepoUrl} name="repo" />
       <button type="submit">Submit</button>
     </form>
   </aside>
 );
 
-export interface RightRailProps {
+export interface RightProps {
   userScript: UserScript;
   isDisabledGlobally: boolean;
   toggleDisabledGlobally: () => void;
@@ -75,7 +84,7 @@ export interface RightRailProps {
   removeDisabledDomain: (domain: string) => void;
 }
 
-export const RightRail: React.FC<RightRailProps> = ({
+export const Right: React.FC<RightProps> = ({
   userScript,
   isDisabledGlobally,
   toggleDisabledGlobally,
@@ -118,3 +127,29 @@ export const RightRail: React.FC<RightRailProps> = ({
     </div>
   </aside>
 );
+
+const Options: React.FC = () => {
+  const { setStorage, fetching: setFetching } = useSetStorage();
+  const { data, fetching: getFetching } = useGetStorage(REPO_KEY, [
+    setFetching,
+  ]);
+
+  return (
+    <div>
+      <Top
+        gitRepoUrl={data}
+        onRefreshClick
+        handleGitRepoUrlSubmit={(repo) => setStorage(REPO_KEY, repo)}
+      />
+      <Left userScripts isUserScriptOpen onUserScriptClick />
+      <Center userScript />
+      <Right
+        userScript
+        isDisabledGlobally
+        toggleDisabledGlobally
+        disabledDomains
+        removeDisabledDomain
+      />
+    </div>
+  );
+};

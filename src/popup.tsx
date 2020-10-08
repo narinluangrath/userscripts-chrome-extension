@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { useIsPopupOpen } from "./state";
 import { BEM } from "./utils";
 import { UserScript } from "./types";
 import style from "./popup.module.scss";

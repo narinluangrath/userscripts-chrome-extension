@@ -4,31 +4,29 @@ import { action } from "@storybook/addon-actions";
 
 import { getTestUserScript, getTestUserScripts } from "./utils";
 import {
-  LeftRail,
-  LeftRailProps,
-  Main,
-  MainProps,
+  Left,
+  LeftProps,
+  Center,
+  CenterProps,
   Top,
   TopProps,
-  RightRail,
-  RightRailProps,
+  Right,
+  RightProps,
 } from "./options";
 
 export default {
   title: "Options",
 } as Meta;
 
-export const LeftRailDemo: Story<LeftRailProps> = (args) => (
-  <LeftRail {...args} />
-);
-LeftRailDemo.args = {
+export const LeftDemo: Story<LeftProps> = (args) => <Left {...args} />;
+LeftDemo.args = {
   userScripts: getTestUserScripts(),
   isUserScriptOpen: (us) => us.id === "1",
   onUserScriptClick: action("onUserScriptClick"),
 };
 
-export const MainDemo: Story<MainProps> = (args) => <Main {...args} />;
-MainDemo.args = {
+export const CenterDemo: Story<CenterProps> = (args) => <Center {...args} />;
+CenterDemo.args = {
   userScript: getTestUserScript(),
 };
 
@@ -39,10 +37,8 @@ TopDemo.args = {
   handleGitRepoUrlSubmit: action("handleGitRepoUrlSubmit"),
 };
 
-export const RightRailDemo: Story<RightRailProps> = (args) => (
-  <RightRail {...args} />
-);
-RightRailDemo.args = {
+export const RightDemo: Story<RightProps> = (args) => <Right {...args} />;
+RightDemo.args = {
   userScript: getTestUserScript(),
   isDisabledGlobally: true,
   toggleDisabledGlobally: action("toggleDisabledGlobally"),
@@ -51,5 +47,5 @@ RightRailDemo.args = {
     "http://example.org/foo/bar.html",
     "http://127.0.0.1/",
   ],
-  removeDisabledDomain: action("removeDisabledDomain"),
+  removeDisabledDomain: action("removeDisabledDoCenter"),
 };
