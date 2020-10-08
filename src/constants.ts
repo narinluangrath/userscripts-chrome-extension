@@ -1,4 +1,2 @@
-export const POPUP_OPEN_KEY = "POPUP_POPUP_OPEN_KEY";
-export const ICON_CLICK = "ICON_CLICK";
-export const GIT_REPO_URL_KEY = "GIT_REPO_URL_KEY";
-export const GIT_REPO_USER_SCRIPTS_PATH = "/user-scripts";
+export const REPO_KEY = "REPO_KEY";
+export const SCRIPTS_PATH = "/user-scripts";
