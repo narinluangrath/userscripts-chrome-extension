@@ -40,12 +40,4 @@ TopDemo.args = {
 export const RightDemo: Story<RightProps> = (args) => <Right {...args} />;
 RightDemo.args = {
   userScript: getTestUserScript(),
-  isDisabledGlobally: true,
-  toggleDisabledGlobally: action("toggleDisabledGlobally"),
-  disabledDomains: [
-    "https://google.com/",
-    "http://example.org/foo/bar.html",
-    "http://127.0.0.1/",
-  ],
-  removeDisabledDomain: action("removeDisabledDoCenter"),
 };

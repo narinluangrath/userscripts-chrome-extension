@@ -1,7 +1,7 @@
 import React from "react";
 import cx from "classnames";
 
-import { useGetStorage, useSetStorage } from "./hooks";
+import { useGetStorage, useSetStorage, useUserScriptFiles } from "./hooks";
 import { REPO_KEY } from "./constants";
 import { UserScript } from "./types";
 import style from "./options.module.scss";
@@ -78,19 +78,9 @@ export const Top: React.FC<TopProps> = ({
 
 export interface RightProps {
   userScript: UserScript;
-  isDisabledGlobally: boolean;
-  toggleDisabledGlobally: () => void;
-  disabledDomains: string[];
-  removeDisabledDomain: (domain: string) => void;
 }
 
-export const Right: React.FC<RightProps> = ({
-  userScript,
-  isDisabledGlobally,
-  toggleDisabledGlobally,
-  disabledDomains,
-  removeDisabledDomain,
-}) => (
+export const Right: React.FC<RightProps> = ({ userScript }) => (
   <aside>
     <h1>Metadata</h1>
     <table>
@@ -109,47 +99,35 @@ export const Right: React.FC<RightProps> = ({
         ))}
       </tbody>
     </table>
-    <div>
-      <button onClick={toggleDisabledGlobally}>
-        {isDisabledGlobally
-          ? "Globally OFF"
-          : "On (Unless visiting disabled domain)"}
-      </button>
-      <h2>Disabled Domains</h2>
-      <ul>
-        {disabledDomains.map((domain) => (
-          <li>
-            <span>{domain}</span>
-            <button onClick={() => removeDisabledDomain(domain)}>Remove</button>
-          </li>
-        ))}
-      </ul>
-    </div>
   </aside>
 );
 
 const Options: React.FC = () => {
   const { setStorage, fetching: setFetching } = useSetStorage();
-  const { data, fetching: getFetching } = useGetStorage(REPO_KEY, [
-    setFetching,
-  ]);
+  const { data, fetching: getFetching } = useGetStorage(REPO_KEY);
+  const {
+    userScripts,
+    refetch,
+    fetching: usFetching,
+    error,
+  } = useUserScriptFiles(data);
+  const [openId, setOpenId] = React.useState<string>(null);
+  const openUserScript = userScripts.find((us) => us.id === openId);
 
   return (
     <div>
       <Top
         gitRepoUrl={data}
-        onRefreshClick
+        onRefreshClick={refetch}
         handleGitRepoUrlSubmit={(repo) => setStorage(REPO_KEY, repo)}
       />
-      <Left userScripts isUserScriptOpen onUserScriptClick />
-      <Center userScript />
-      <Right
-        userScript
-        isDisabledGlobally
-        toggleDisabledGlobally
-        disabledDomains
-        removeDisabledDomain
+      <Left
+        userScripts={userScripts}
+        isUserScriptOpen={(us) => us.id === openId}
+        onUserScriptClick={(us) => setOpenId(us.id)}
       />
+      <Center userScript={openUserScript} />
+      <Right userScript={openUserScript} />
     </div>
   );
 };
