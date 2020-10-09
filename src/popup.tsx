@@ -9,16 +9,16 @@ const bem = new BEM(style).getter;
 
 export interface PopupProps {
   userScripts: UserScript[];
-  isUserScriptEnabled: (us: UserScript) => boolean;
-  toggleUserScript: (us: UserScript) => void;
-  onSettingsClick: () => void;
+  // isUserScriptEnabled: (us: UserScript) => boolean;
+  // toggleUserScript: (us: UserScript) => void;
+  // onSettingsClick: () => void;
 }
 
 export const Popup: React.FC<PopupProps> = ({
   userScripts,
-  isUserScriptEnabled,
-  toggleUserScript,
-  onSettingsClick,
+  // isUserScriptEnabled,
+  // toggleUserScript,
+  // onSettingsClick,
 }) => {
   return (
     <div>
@@ -35,17 +35,17 @@ export const Popup: React.FC<PopupProps> = ({
             <tr key={us.id}>
               <td>{us.metadata.name || us.filename}</td>
               <td>
-                <button onClick={() => toggleUserScript(us)}>
+                {/* <button onClick={() => toggleUserScript(us)}>
                   {isUserScriptEnabled(us) ? "On" : "Off"}
-                </button>
+                </button> */}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div>
+      {/* <div>
         <button onClick={onSettingsClick}>⚙️</button>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -3,4 +3,9 @@ import ReactDOM from "react-dom";
 
 import { Popup } from "./popup";
 
-ReactDOM.render(<Popup />, document.getElementById("root"));
+const Wrapper: React.FC = () => {
+  const props = { userScripts: [] };
+  return <Popup {...props} />;
+};
+
+ReactDOM.render(<Wrapper />, document.getElementById("root"));

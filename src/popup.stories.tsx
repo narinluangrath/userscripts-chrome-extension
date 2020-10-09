@@ -39,7 +39,7 @@ Demo.args = {
       },
     },
   ],
-  isUserScriptEnabled: (us) => us.id !== "3",
-  toggleUserScript: action("toggleUserScript"),
-  onSettingsClick: action("onSettingsclick"),
+  // isUserScriptEnabled: (us) => us.id !== "3",
+  // toggleUserScript: action("toggleUserScript"),
+  // onSettingsClick: action("onSettingsclick"),
 };

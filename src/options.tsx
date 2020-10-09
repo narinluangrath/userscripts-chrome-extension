@@ -102,7 +102,7 @@ export const Right: React.FC<RightProps> = ({ userScript }) => (
   </aside>
 );
 
-const Options: React.FC = () => {
+export const Options: React.FC = () => {
   const { setStorage, fetching: setFetching } = useSetStorage();
   const { data, fetching: getFetching } = useGetStorage(REPO_KEY);
   const {
