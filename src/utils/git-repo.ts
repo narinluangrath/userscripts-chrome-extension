@@ -6,7 +6,12 @@
  * - https://github.com/isomorphic-git/lightning-fs/blob/main/README.md
  */
 
-import { clone as _clone, log as _log, fetch as _fetch } from "isomorphic-git";
+import {
+  clone as _clone,
+  log as _log,
+  fetch as _fetch,
+  fastForward as _fastForward,
+} from "isomorphic-git";
 import http from "isomorphic-git/http/web";
 import FS from "@isomorphic-git/lightning-fs";
 
@@ -57,6 +62,13 @@ export class GitRepo {
       ...opts,
     }).then(() => {
       this.lastFetched = new Date();
+    });
+  }
+
+  pull(opts?: object): Promise<void> {
+    return _fastForward({
+      ...this._getDefaultParams,
+      ...opts,
     });
   }
 

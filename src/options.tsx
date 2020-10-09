@@ -42,12 +42,13 @@ export interface CenterProps {
   userScript: UserScript;
 }
 
-export const Center: React.FC<CenterProps> = ({ userScript }) => (
-  <main>
-    <header>{userScript.metadata.name || userScript.filename}</header>
-    <code>{userScript.script}</code>
-  </main>
-);
+export const Center: React.FC<CenterProps> = ({ userScript }) =>
+  userScript ? (
+    <main>
+      <header>{userScript.metadata.name || userScript.filename}</header>
+      <code>{userScript.script}</code>
+    </main>
+  ) : null;
 
 export interface TopProps {
   gitRepoUrl: string;
@@ -59,48 +60,50 @@ export const Top: React.FC<TopProps> = ({
   gitRepoUrl,
   onRefreshClick,
   handleGitRepoUrlSubmit,
-}) => (
-  <aside>
-    <button onClick={onRefreshClick}>Refetch</button>
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        const form = new FormData(e.currentTarget);
-        const repo = form.get("repo") as string;
-        handleGitRepoUrlSubmit(repo);
-      }}
-    >
-      <input value={gitRepoUrl} name="repo" />
-      <button type="submit">Submit</button>
-    </form>
-  </aside>
-);
+}) => {
+  const [input, setInput] = React.useState(gitRepoUrl);
+  return (
+    <aside>
+      <button onClick={onRefreshClick}>Refetch</button>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleGitRepoUrlSubmit(input);
+        }}
+      >
+        <input value={input} onChange={(e) => setInput(e.target.value)} />
+        <button type="submit">Submit</button>
+      </form>
+    </aside>
+  );
+};
 
 export interface RightProps {
   userScript: UserScript;
 }
 
-export const Right: React.FC<RightProps> = ({ userScript }) => (
-  <aside>
-    <h1>Metadata</h1>
-    <table>
-      <thead>
-        <tr>
-          <td>Name</td>
-          <td>Value</td>
-        </tr>
-      </thead>
-      <tbody>
-        {Object.entries(userScript.metadata).map(([name, value]) => (
+export const Right: React.FC<RightProps> = ({ userScript }) =>
+  userScript ? (
+    <aside>
+      <h1>Metadata</h1>
+      <table>
+        <thead>
           <tr>
-            <td>{name}</td>
-            <td>{value}</td>
+            <td>Name</td>
+            <td>Value</td>
           </tr>
-        ))}
-      </tbody>
-    </table>
-  </aside>
-);
+        </thead>
+        <tbody>
+          {Object.entries(userScript.metadata).map(([name, value]) => (
+            <tr>
+              <td>{name}</td>
+              <td>{value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </aside>
+  ) : null;
 
 export const Options: React.FC = () => {
   const { setStorage, fetching: setFetching } = useSetStorage();
