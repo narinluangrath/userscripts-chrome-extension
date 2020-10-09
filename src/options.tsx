@@ -106,31 +106,41 @@ export const Right: React.FC<RightProps> = ({ userScript }) =>
   ) : null;
 
 export const Options: React.FC = () => {
-  const { setStorage, fetching: setFetching } = useSetStorage();
-  const { data, fetching: getFetching } = useGetStorage(REPO_KEY);
+  const { setStorage: setRepoUrl } = useSetStorage();
+  const { data: repoUrl, fetching: repoUrlFetching } = useGetStorage(REPO_KEY);
   const {
     userScripts,
     refetch,
     fetching: usFetching,
     error,
-  } = useUserScriptFiles(data);
+  } = useUserScriptFiles(repoUrl);
   const [openId, setOpenId] = React.useState<string>(null);
   const openUserScript = userScripts.find((us) => us.id === openId);
+
+  if (repoUrlFetching) {
+    return <p>Loading repo url</p>;
+  }
 
   return (
     <div>
       <Top
-        gitRepoUrl={data}
+        gitRepoUrl={repoUrl}
         onRefreshClick={refetch}
-        handleGitRepoUrlSubmit={(repo) => setStorage(REPO_KEY, repo)}
+        handleGitRepoUrlSubmit={(repo) => setRepoUrl(REPO_KEY, repo)}
       />
-      <Left
-        userScripts={userScripts}
-        isUserScriptOpen={(us) => us.id === openId}
-        onUserScriptClick={(us) => setOpenId(us.id)}
-      />
-      <Center userScript={openUserScript} />
-      <Right userScript={openUserScript} />
+      {usFetching ? (
+        <p>Fetching user scripts...</p>
+      ) : (
+        <>
+          <Left
+            userScripts={userScripts}
+            isUserScriptOpen={(us) => us.id === openId}
+            onUserScriptClick={(us) => setOpenId(us.id)}
+          />
+          <Center userScript={openUserScript} />
+          <Right userScript={openUserScript} />
+        </>
+      )}
     </div>
   );
 };
