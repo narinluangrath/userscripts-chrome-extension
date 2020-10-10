@@ -1,6 +1,7 @@
 import React from "react";
 import cx from "classnames";
 
+import { MatchPattern } from "./utils";
 import { useGetStorage, useSetStorage, useUserScriptFiles } from "./hooks";
 import { REPO_KEY } from "./constants";
 import { UserScript } from "./types";
@@ -82,8 +83,31 @@ export interface RightProps {
   userScript: UserScript;
 }
 
-export const Right: React.FC<RightProps> = ({ userScript }) =>
-  userScript ? (
+export const Right: React.FC<RightProps> = ({ userScript }) => {
+  const [value, setValue] = React.useState("");
+  const [isMatch, setIsMatch] = React.useState<boolean | null>(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const match =
+      userScript && userScript.metadata && userScript.metadata.match;
+    if (!match) {
+      return;
+    }
+
+    const matchPattern = new MatchPattern(match);
+    if (matchPattern.isMatch(value)) {
+      setIsMatch(true);
+    } else {
+      setIsMatch(false);
+    }
+  };
+
+  if (!userScript) {
+    return null;
+  }
+
+  return (
     <aside>
       <h1>Metadata</h1>
       <table>
@@ -102,8 +126,14 @@ export const Right: React.FC<RightProps> = ({ userScript }) =>
           ))}
         </tbody>
       </table>
+      <form onSubmit={handleSubmit}>
+        <input value={value} onChange={(e) => setValue(e.target.value)} />
+        <button type="submit">Check</button>
+        {isMatch !== null && isMatch ? <p>Match</p> : <p>Not Match</p>}
+      </form>
     </aside>
-  ) : null;
+  );
+};
 
 export const Options: React.FC = () => {
   const { setStorage: setRepoUrl } = useSetStorage();
