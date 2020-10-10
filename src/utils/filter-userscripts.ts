@@ -6,6 +6,10 @@ export const filterUserScripts = (
   userScripts: UserScript[],
   url: string
 ): UserScript[] => {
+  if (!(userScripts && url)) {
+    return null;
+  }
+
   return userScripts.filter((userScript) => {
     const matchPatternStr = userScript.metadata.match;
     if (!matchPatternStr) {
