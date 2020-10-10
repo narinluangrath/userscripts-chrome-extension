@@ -8,9 +8,10 @@ const runUserScript = (us: UserScript, tabId: number): void => {
   chrome.tabs.executeScript(tabId, { code, runAt });
 };
 
-chrome.tabs.onCreated.addListener((tab) => {
-  const { id, url } = tab;
-  if (!(id && url)) {
+// https://stackoverflow.com/questions/36808309/chrome-extension-page-update-twice-then-removed-on-youtube/36818991#36818991
+chrome.webNavigation.onCompleted.addListener((details) => {
+  const { tabId, url } = details;
+  if (!(tabId && url)) {
     return;
   }
 
@@ -23,7 +24,7 @@ chrome.tabs.onCreated.addListener((tab) => {
     getUserScripts(repo)
       .then((userScripts) => filterUserScripts(userScripts, url))
       .then((userScripts) =>
-        userScripts.forEach((us) => runUserScript(us, id))
+        userScripts.forEach((us) => runUserScript(us, tabId))
       );
   });
 });
