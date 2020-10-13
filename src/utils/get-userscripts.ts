@@ -6,7 +6,7 @@ import { UserScript, SupportedMetadata } from "../types";
 
 const getMetadata = (file: string): SupportedMetadata => {
   const regexp = /==UserScript==.*==\/UserScript==/gs;
-  let match = file.match(regexp) && file.match(regexp)[0];
+  const match = file.match(regexp) && file.match(regexp)[0];
   if (!match) {
     throw Error("No metadata found in file");
   }
