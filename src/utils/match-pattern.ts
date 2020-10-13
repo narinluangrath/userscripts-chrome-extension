@@ -54,7 +54,7 @@ export class MatchPattern {
   /**
    * Returns true if the given `url` matches our match pattern
    */
-  isMatch(url) {
+  isMatch(url: string): boolean {
     if (this.allUrls) {
       return true;
     }

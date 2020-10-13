@@ -1,6 +1,5 @@
 import { MatchPattern } from "./match-pattern";
 import { UserScript } from "../types";
-import { match } from "assert";
 
 export const filterUserScripts = (
   userScripts: UserScript[],

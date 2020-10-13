@@ -25,12 +25,12 @@ export const useGetStorage = <T>(
   return { fetching, data, refetch };
 };
 
-interface SetStorage {
+interface SetStorage<T> {
   fetching: boolean;
-  setStorage: (key: string, value: any) => void;
+  setStorage: (key: string, value: T) => void;
 }
 
-export const useSetStorage = (chr?: typeof chrome): SetStorage => {
+export const useSetStorage = <T>(chr?: typeof chrome): SetStorage<T> => {
   const [fetching, setFetching] = React.useState(false);
 
   const setStorage = React.useCallback(

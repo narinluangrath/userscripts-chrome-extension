@@ -1,6 +1,5 @@
 import { UserScript } from "../types";
 import { filterUserScripts } from "./filter-userscripts";
-import { getUserScripts } from "./get-userscripts";
 
 const getUserScript = (id: string, match: string): UserScript => ({
   id,

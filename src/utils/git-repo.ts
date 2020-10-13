@@ -17,6 +17,15 @@ import FS from "@isomorphic-git/lightning-fs";
 
 import { ReadCommitResult } from "../types";
 
+interface DefaultParams {
+  http: typeof http;
+  url: string;
+  dir: string;
+  fs: FS;
+  remote: string;
+  corsProxy: string;
+}
+
 export class GitRepo {
   url: string;
   fs: FS;
@@ -25,7 +34,7 @@ export class GitRepo {
   private _remote: string;
   private _corsProxy: string;
 
-  constructor(url: string, fsOps?: object) {
+  constructor(url: string, fsOps?: Record<string, unknown>) {
     this.url = url;
     this.fs = new FS(url, fsOps);
     this.lastFetched = null;
@@ -34,7 +43,7 @@ export class GitRepo {
     this._corsProxy = "https://cors.isomorphic-git.org";
   }
 
-  get _getDefaultParams() {
+  get _getDefaultParams(): DefaultParams {
     return {
       http,
       /** isomorphic-git doesn't like .git suffix */
@@ -50,13 +59,13 @@ export class GitRepo {
     return this.readdir(this._dir).then((arr) => !!(arr && arr.length));
   }
 
-  clone(opts?: object): Promise<void> {
+  clone(opts?: Record<string, unknown>): Promise<void> {
     return _clone({ ...this._getDefaultParams, ...opts }).then(() => {
       this.lastFetched = new Date();
     });
   }
 
-  fetch(opts?: object): Promise<void> {
+  fetch(opts?: Record<string, unknown>): Promise<void> {
     return _fetch({
       ...this._getDefaultParams,
       ...opts,
@@ -65,14 +74,14 @@ export class GitRepo {
     });
   }
 
-  pull(opts?: object): Promise<void> {
+  pull(opts?: Record<string, unknown>): Promise<void> {
     return _fastForward({
       ...this._getDefaultParams,
       ...opts,
     });
   }
 
-  log(opts?: object): Promise<Array<ReadCommitResult>> {
+  log(opts?: Record<string, unknown>): Promise<Array<ReadCommitResult>> {
     const { fs, dir } = this._getDefaultParams;
     return _log({
       fs,
@@ -88,14 +97,14 @@ export class GitRepo {
   /**
    * Returns a promise that resolves to a sting array
    */
-  readdir(dir: string, opts?): Promise<string[]> {
+  readdir(dir: string, opts?: Record<string, unknown>): Promise<string[]> {
     return this.fs.promises.readdir(dir, opts);
   }
 
   /**
    * Returns a promise that resolves to a string.
    */
-  readFile(file: string, opts?): Promise<string> {
+  readFile(file: string, opts?: Record<string, unknown>): Promise<string> {
     return this.fs.promises.readFile(file, { encoding: "utf8", ...opts });
   }
 }

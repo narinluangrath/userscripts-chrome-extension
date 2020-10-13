@@ -13,9 +13,8 @@ jest.mock("../utils/get-userscripts", () => ({
   getUserScripts: jest.fn().mockResolvedValue([mockUserScript]),
 }));
 
-import { renderHook, act } from "@testing-library/react-hooks";
+import { renderHook } from "@testing-library/react-hooks";
 
-import { getUserScripts } from "../utils/get-userscripts";
 import { useUserScriptFiles } from "./use-userscript-files";
 
 describe("useUserscriptFiles", () => {

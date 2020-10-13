@@ -16,7 +16,12 @@ export class BEM {
     this.getter = this.get.bind(this);
   }
 
-  get(block: string, element?: string, modifiers?: string[], ...cns) {
+  get(
+    block: string,
+    element?: string,
+    modifiers?: string[],
+    ...cns: string[]
+  ): string {
     const base = block + (element ? `__${element}` : "");
     const modified = (modifiers || []).map((m) => `${base}--${m}`);
     const hashed = [base, ...modified].map((cls) => this._module[cls]);
