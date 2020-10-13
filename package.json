@@ -9,12 +9,7 @@
   "scripts": {
     "lint": "eslint --fix --ext .js --ext .ts src",
     "format": "pretty-quick",
-    "dev:options": "parcel src/options.html",
-    "dev:popup": "parcel src/popup.html",
-    "build:options": "parcel build src/options.html",
-    "build:popup": "parcel build src/popup.html",
-    "build:ts": "parcel build src/background.ts && parcel build src/content.ts",
-    "compile": "rm -rf dist/* && yarn build:options && yarn build:popup && yarn build:ts && cp -r manifest.json src/icons dist",
+    "build": "./build/prod.sh",
     "storybook": "start-storybook -p 6006",
     "test": "jest src"
   },
