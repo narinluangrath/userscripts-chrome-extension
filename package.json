@@ -9,7 +9,8 @@
   "scripts": {
     "lint": "eslint --fix --ext .js --ext .ts src",
     "format": "pretty-quick",
-    "build": "./build/prod.sh",
+    "build:dev": "./build/dev.sh",
+    "build:prod": "./build/prod.sh",
     "storybook": "start-storybook -p 6006",
     "test": "jest src"
   },
