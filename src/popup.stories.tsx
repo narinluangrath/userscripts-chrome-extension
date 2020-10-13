@@ -13,7 +13,7 @@ const Template: Story<PopupProps> = (args) => <Popup {...args} />;
 
 export const Demo = Template.bind({});
 Demo.args = {
-  userScripts: [
+  userscripts: [
     {
       id: "1",
       filename: "",
@@ -39,7 +39,7 @@ Demo.args = {
       },
     },
   ],
-  // isUserScriptEnabled: (us) => us.id !== "3",
-  // toggleUserScript: action("toggleUserScript"),
+  // isUserscriptEnabled: (us) => us.id !== "3",
+  // toggleUserscript: action("toggleUserscript"),
   // onSettingsClick: action("onSettingsclick"),
 };

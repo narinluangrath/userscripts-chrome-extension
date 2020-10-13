@@ -1,6 +1,6 @@
-import { UserScript } from "../types";
+import { Userscript } from "../types";
 
-export const getTestUserScript = (id = 1): UserScript => ({
+export const getTestUserscript = (id = 1): Userscript => ({
   id: id.toString(),
   filename: "filename.js",
   script: "() => {}",
@@ -13,7 +13,7 @@ export const getTestUserScript = (id = 1): UserScript => ({
   },
 });
 
-export const getTestUserScripts = (n = 10): UserScript[] =>
+export const getTestUserscripts = (n = 10): Userscript[] =>
   Array(n)
     .fill(null)
-    .map((_, i) => getTestUserScript(i));
+    .map((_, i) => getTestUserscript(i));

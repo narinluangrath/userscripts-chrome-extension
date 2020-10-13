@@ -15,18 +15,18 @@ jest.mock("../utils/get-userscripts", () => ({
 
 import { renderHook } from "@testing-library/react-hooks";
 
-import { useUserScriptFiles } from "./use-userscript-files";
+import { useUserscriptFiles } from "./use-userscript-files";
 
 // waitForNextUpdate times out :shrug:
 describe("useUserscriptFiles", () => {
   it.skip("loads the userscripts", async () => {
     const { result, waitForNextUpdate } = renderHook(() =>
-      useUserScriptFiles("")
+      useUserscriptFiles("")
     );
 
     await waitForNextUpdate();
 
-    expect(result.current.userScripts).toEqual([mockUserScript]);
+    expect(result.current.userscripts).toEqual([mockUserScript]);
     expect(typeof result.current.refetch).toBe("function");
     expect(result.current.fetching).toBe(false);
     expect(result.current.error).toBe(null);

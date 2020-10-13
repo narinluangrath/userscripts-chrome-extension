@@ -1,4 +1,4 @@
-import { getUserScripts } from "./get-userscripts";
+import { getUserscripts } from "./get-userscripts";
 
 const mockFilename = "script.js";
 const mockDir = [mockFilename];
@@ -22,7 +22,7 @@ jest.mock("./git-repo", () => ({
   })),
 }));
 
-const userScript = {
+const userscript = {
   id: mockFilename,
   filename: mockFilename,
   script: mockFile,
@@ -35,7 +35,7 @@ const userScript = {
 
 describe("useUserscriptFiles", () => {
   it("loads the userscripts", async () => {
-    const result = await getUserScripts("");
-    expect(result).toEqual([userScript]);
+    const result = await getUserscripts("");
+    expect(result).toEqual([userscript]);
   });
 });

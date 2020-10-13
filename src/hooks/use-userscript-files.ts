@@ -1,17 +1,17 @@
 import React from "react";
 
-import { getUserScripts } from "../utils";
-import { UserScript } from "../types";
+import { getUserscripts } from "../utils";
+import { Userscript } from "../types";
 
-interface UserScriptFiles {
-  userScripts: UserScript[];
+interface UserscriptFiles {
+  userscripts: Userscript[];
   refetch: () => void;
   fetching: boolean;
   error: Error | null;
 }
 
-export const useUserScriptFiles = (repo: string): UserScriptFiles => {
-  const [userScripts, setUserScripts] = React.useState<UserScript[]>([]);
+export const useUserscriptFiles = (repo: string): UserscriptFiles => {
+  const [userscripts, setUserscripts] = React.useState<Userscript[]>([]);
   const [error, setError] = React.useState<Error>(null);
   const [fetching, setFetching] = React.useState(true);
 
@@ -20,12 +20,12 @@ export const useUserScriptFiles = (repo: string): UserScriptFiles => {
       return;
     }
     setFetching(true);
-    getUserScripts(repo)
-      .then(setUserScripts)
+    getUserscripts(repo)
+      .then(setUserscripts)
       .catch(setError)
       .finally(() => setFetching(false));
   }, [repo]);
   React.useEffect(refetch, [refetch]);
 
-  return { userScripts, refetch, fetching, error };
+  return { userscripts, refetch, fetching, error };
 };

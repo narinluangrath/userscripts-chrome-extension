@@ -2,32 +2,32 @@ import React from "react";
 import cx from "classnames";
 
 import { MatchPattern } from "./utils";
-import { useGetStorage, useSetStorage, useUserScriptFiles } from "./hooks";
+import { useGetStorage, useSetStorage, useUserscriptFiles } from "./hooks";
 import { REPO_KEY } from "./constants";
-import { UserScript } from "./types";
+import { Userscript } from "./types";
 import style from "./options.module.scss";
 
 export interface LeftProps {
-  userScripts: UserScript[];
-  isUserScriptOpen: (us: UserScript) => boolean;
-  onUserScriptClick: (us: UserScript) => void;
+  userscripts: Userscript[];
+  isUserscriptOpen: (us: Userscript) => boolean;
+  onUserscriptClick: (us: Userscript) => void;
 }
 
 export const Left: React.FC<LeftProps> = ({
-  userScripts,
-  isUserScriptOpen,
-  onUserScriptClick,
+  userscripts,
+  isUserscriptOpen,
+  onUserscriptClick,
 }) => (
   <aside>
     <nav>
       <ul>
-        {userScripts.map((us) => (
+        {userscripts.map((us) => (
           <li
             key={us.id}
-            onClick={() => onUserScriptClick(us)}
+            onClick={() => onUserscriptClick(us)}
             className={cx(
               style.scriptName,
-              isUserScriptOpen(us) && style.isOpen
+              isUserscriptOpen(us) && style.isOpen
             )}
           >
             <code>{us.metadata.name || us.filename}</code>
@@ -40,14 +40,14 @@ export const Left: React.FC<LeftProps> = ({
 );
 
 export interface CenterProps {
-  userScript: UserScript;
+  userscript: Userscript;
 }
 
-export const Center: React.FC<CenterProps> = ({ userScript }) =>
-  userScript ? (
+export const Center: React.FC<CenterProps> = ({ userscript }) =>
+  userscript ? (
     <main>
-      <header>{userScript.metadata.name || userScript.filename}</header>
-      <code>{userScript.script}</code>
+      <header>{userscript.metadata.name || userscript.filename}</header>
+      <code>{userscript.script}</code>
     </main>
   ) : null;
 
@@ -80,17 +80,17 @@ export const Top: React.FC<TopProps> = ({
 };
 
 export interface RightProps {
-  userScript: UserScript;
+  userscript: Userscript;
 }
 
-export const Right: React.FC<RightProps> = ({ userScript }) => {
+export const Right: React.FC<RightProps> = ({ userscript }) => {
   const [value, setValue] = React.useState("");
   const [isMatch, setIsMatch] = React.useState<boolean | null>(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const match =
-      userScript && userScript.metadata && userScript.metadata.match;
+      userscript && userscript.metadata && userscript.metadata.match;
     if (!match) {
       return;
     }
@@ -103,7 +103,7 @@ export const Right: React.FC<RightProps> = ({ userScript }) => {
     }
   };
 
-  if (!userScript) {
+  if (!userscript) {
     return null;
   }
 
@@ -118,7 +118,7 @@ export const Right: React.FC<RightProps> = ({ userScript }) => {
           </tr>
         </thead>
         <tbody>
-          {Object.entries(userScript.metadata).map(([name, value]) => (
+          {Object.entries(userscript.metadata).map(([name, value]) => (
             <tr>
               <td>{name}</td>
               <td>{value}</td>
@@ -139,13 +139,13 @@ export const Options: React.FC = () => {
   const { setStorage: setRepoUrl } = useSetStorage();
   const { data: repoUrl, fetching: repoUrlFetching } = useGetStorage(REPO_KEY);
   const {
-    userScripts,
+    userscripts,
     refetch,
     fetching: usFetching,
     error,
-  } = useUserScriptFiles(repoUrl);
+  } = useUserscriptFiles(repoUrl);
   const [openId, setOpenId] = React.useState<string>(null);
-  const openUserScript = userScripts.find((us) => us.id === openId);
+  const openUserScript = userscripts.find((us) => us.id === openId);
 
   if (repoUrlFetching) {
     return <p>Loading repo url</p>;
@@ -163,12 +163,12 @@ export const Options: React.FC = () => {
       ) : (
         <>
           <Left
-            userScripts={userScripts}
-            isUserScriptOpen={(us) => us.id === openId}
-            onUserScriptClick={(us) => setOpenId(us.id)}
+            userscripts={userscripts}
+            isUserscriptOpen={(us) => us.id === openId}
+            onUserscriptClick={(us) => setOpenId(us.id)}
           />
-          <Center userScript={openUserScript} />
-          <Right userScript={openUserScript} />
+          <Center userscript={openUserScript} />
+          <Right userscript={openUserScript} />
         </>
       )}
     </div>

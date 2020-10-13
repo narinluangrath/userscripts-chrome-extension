@@ -1,6 +1,6 @@
 export * from "./bem";
 export * from "./git-repo";
 export * from "./match-pattern";
-export * from "./create-test-data";
-export * from "./get-userscripts";
-export * from "./filter-userscripts";
+export { getTestUserscript, getTestUserscripts } from "./create-test-data";
+export { getUserscripts } from "./get-userscripts";
+export { filterUserscripts } from "./filter-userscripts";

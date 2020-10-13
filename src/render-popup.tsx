@@ -2,15 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import { REPO_KEY } from "./constants";
-import { filterUserScripts } from "./utils";
-import { UserScript } from "./types";
-import { useUserScriptFiles, useGetStorage } from "./hooks";
+import { filterUserscripts } from "./utils";
+import { Userscript } from "./types";
+import { useUserscriptFiles, useGetStorage } from "./hooks";
 import { Popup } from "./popup";
 
 const Wrapper: React.FC = () => {
-  const [userScripts, setUserScript] = React.useState<UserScript[]>([]);
+  const [userscripts, setUserscript] = React.useState<Userscript[]>([]);
   const { data: repo, fetching: repoFetching } = useGetStorage(REPO_KEY);
-  const { userScripts: allUserScripts, fetching, error } = useUserScriptFiles(
+  const { userscripts: allUserscripts, fetching, error } = useUserscriptFiles(
     repo
   );
 
@@ -22,10 +22,10 @@ const Wrapper: React.FC = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const tab = tabs[0];
       const { url } = tab;
-      const filtered = filterUserScripts(allUserScripts, url);
-      setUserScript(filtered);
+      const filtered = filterUserscripts(allUserscripts, url);
+      setUserscript(filtered);
     });
-  }, [allUserScripts, fetching, error]);
+  }, [allUserscripts, fetching, error]);
 
   if (error) {
     return <p>{JSON.stringify(error, null, 2)}</p>;
@@ -35,7 +35,7 @@ const Wrapper: React.FC = () => {
     return <p>Fetching...</p>;
   }
 
-  return <Popup userScripts={userScripts} />;
+  return <Popup userscripts={userscripts} />;
 };
 
 ReactDOM.render(<Wrapper />, document.getElementById("root"));

@@ -2,22 +2,22 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import { BEM } from "./utils";
-import { UserScript } from "./types";
+import { Userscript } from "./types";
 import style from "./popup.module.scss";
 
 const bem = new BEM(style).getter;
 
 export interface PopupProps {
-  userScripts: UserScript[];
-  // isUserScriptEnabled: (us: UserScript) => boolean;
-  // toggleUserScript: (us: UserScript) => void;
+  userscripts: Userscript[];
+  // isUserscriptEnabled: (us: Userscript) => boolean;
+  // toggleUserscript: (us: Userscript) => void;
   // onSettingsClick: () => void;
 }
 
 export const Popup: React.FC<PopupProps> = ({
-  userScripts,
-  // isUserScriptEnabled,
-  // toggleUserScript,
+  userscripts,
+  // isUserscriptEnabled,
+  // toggleUserscript,
   // onSettingsClick,
 }) => {
   return (
@@ -31,12 +31,12 @@ export const Popup: React.FC<PopupProps> = ({
           </tr>
         </thead>
         <tbody>
-          {userScripts.map((us) => (
+          {userscripts.map((us) => (
             <tr key={us.id}>
               <td>{us.metadata.name || us.filename}</td>
               <td>
-                {/* <button onClick={() => toggleUserScript(us)}>
-                  {isUserScriptEnabled(us) ? "On" : "Off"}
+                {/* <button onClick={() => toggleUserscript(us)}>
+                  {isUserscriptEnabled(us) ? "On" : "Off"}
                 </button> */}
               </td>
             </tr>

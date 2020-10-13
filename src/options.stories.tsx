@@ -20,14 +20,14 @@ export default {
 
 export const LeftDemo: Story<LeftProps> = (args) => <Left {...args} />;
 LeftDemo.args = {
-  userScripts: getTestUserScripts(),
-  isUserScriptOpen: (us) => us.id === "1",
-  onUserScriptClick: action("onUserScriptClick"),
+  userscripts: getTestUserScripts(),
+  isUserscriptOpen: (us) => us.id === "1",
+  onUserscriptClick: action("onUserscriptClick"),
 };
 
 export const CenterDemo: Story<CenterProps> = (args) => <Center {...args} />;
 CenterDemo.args = {
-  userScript: getTestUserScript(),
+  userscript: getTestUserScript(),
 };
 
 export const TopDemo: Story<TopProps> = (args) => <Top {...args} />;
@@ -39,5 +39,5 @@ TopDemo.args = {
 
 export const RightDemo: Story<RightProps> = (args) => <Right {...args} />;
 RightDemo.args = {
-  userScript: getTestUserScript(),
+  userscript: getTestUserScript(),
 };

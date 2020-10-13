@@ -1,16 +1,16 @@
 import { MatchPattern } from "./match-pattern";
-import { UserScript } from "../types";
+import { Userscript } from "../types";
 
-export const filterUserScripts = (
-  userScripts: UserScript[],
+export const filterUserscripts = (
+  userscripts: Userscript[],
   url: string
-): UserScript[] => {
-  if (!(userScripts && url)) {
+): Userscript[] => {
+  if (!(userscripts && url)) {
     return null;
   }
 
-  return userScripts.filter((userScript) => {
-    const matchPatternStr = userScript.metadata.match;
+  return userscripts.filter((userscript) => {
+    const matchPatternStr = userscript.metadata.match;
     if (!matchPatternStr) {
       return false;
     }

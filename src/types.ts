@@ -44,7 +44,7 @@ export type Metadata = SupportedMetadata & {
   resource?: string;
 };
 
-export type UserScript = {
+export type Userscript = {
   id: string;
   filename: string;
   script: string;

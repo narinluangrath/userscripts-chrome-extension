@@ -1,8 +1,8 @@
 import { REPO_KEY } from "./constants";
-import { UserScript } from "./types";
-import { getUserScripts, filterUserScripts } from "./utils";
+import { Userscript } from "./types";
+import { getUserscripts, filterUserscripts } from "./utils";
 
-const runUserScript = (us: UserScript, tabId: number): void => {
+const runUserscript = (us: Userscript, tabId: number): void => {
   const code = us.script;
   const runAt = us.metadata["run-at"] || "document_idle";
   chrome.tabs.executeScript(tabId, { code, runAt });
@@ -21,10 +21,10 @@ chrome.webNavigation.onCompleted.addListener((details) => {
       return;
     }
 
-    getUserScripts(repo)
-      .then((userScripts) => filterUserScripts(userScripts, url))
-      .then((userScripts) =>
-        userScripts.forEach((us) => runUserScript(us, tabId))
+    getUserscripts(repo)
+      .then((userscripts) => filterUserscripts(userscripts, url))
+      .then((userscripts) =>
+        userscripts.forEach((us) => runUserscript(us, tabId))
       );
   });
 });

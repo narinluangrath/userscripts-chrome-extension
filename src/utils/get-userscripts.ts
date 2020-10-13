@@ -2,7 +2,7 @@ import userscriptMeta from "userscript-meta";
 
 import { SCRIPTS_PATH } from "../constants";
 import { GitRepo } from "../utils";
-import { UserScript, SupportedMetadata } from "../types";
+import { Userscript, SupportedMetadata } from "../types";
 
 const getMetadata = (file: string): SupportedMetadata => {
   const regexp = /==UserScript==.*==\/UserScript==/gs;
@@ -13,14 +13,14 @@ const getMetadata = (file: string): SupportedMetadata => {
   return userscriptMeta.parse(match);
 };
 
-const parseFile = (file: string, filename: string): UserScript => ({
+const parseFile = (file: string, filename: string): Userscript => ({
   filename,
   id: filename,
   script: file,
   metadata: getMetadata(file),
 });
 
-export const getUserScripts = (repo: string): Promise<UserScript[]> => {
+export const getUserscripts = (repo: string): Promise<Userscript[]> => {
   let filenames; // Temp variable to store filenames
   const gitRepo = new GitRepo(repo);
   return gitRepo

@@ -1,7 +1,7 @@
-import { UserScript } from "../types";
-import { filterUserScripts } from "./filter-userscripts";
+import { Userscript } from "../types";
+import { filterUserscripts } from "./filter-userscripts";
 
-const getUserScript = (id: string, match: string): UserScript => ({
+const getUserscript = (id: string, match: string): Userscript => ({
   id,
   filename: "filename.js",
   script: "() => {}",
@@ -14,12 +14,12 @@ const getUserScript = (id: string, match: string): UserScript => ({
   },
 });
 
-describe("filterUserScripts", () => {
+describe("filterUserscripts", () => {
   it("returns the userscripts that match the url", () => {
     const url = "https://www.google.com/foo/baz/bar";
-    const us0 = getUserScript("0", "http://*/foo*"); // wrong scheme
-    const us1 = getUserScript("1", "https://*.google.com/foo*bar");
-    const us2 = getUserScript("2", "*://mail.google.com/*"); // wrong host
-    expect(filterUserScripts([us0, us1, us2], url)).toEqual([us1]);
+    const us0 = getUserscript("0", "http://*/foo*"); // wrong scheme
+    const us1 = getUserscript("1", "https://*.google.com/foo*bar");
+    const us2 = getUserscript("2", "*://mail.google.com/*"); // wrong host
+    expect(filterUserscripts([us0, us1, us2], url)).toEqual([us1]);
   });
 });
