@@ -16,6 +16,7 @@ jest.mock("./git-repo", () => ({
   GitRepo: jest.fn().mockImplementation(() => ({
     clone: jest.fn().mockResolvedValue(null),
     fetch: jest.fn().mockResolvedValue(null),
+    pull: jest.fn().mockResolvedValue(null),
     readdir: jest.fn().mockResolvedValue(mockDir),
     readFile: jest.fn().mockResolvedValue(mockFile),
   })),
