@@ -19,7 +19,8 @@ Demo.args = {
       filename: "",
       script: "",
       metadata: {
-        name: "script-1",
+        name: "Awesome Script 1",
+        version: "v1.2.3",
       },
     },
     {
@@ -27,7 +28,8 @@ Demo.args = {
       filename: "",
       script: "",
       metadata: {
-        name: "script-2",
+        name: "Okay Script 3",
+        version: "v2.3.4",
       },
     },
     {
@@ -35,11 +37,12 @@ Demo.args = {
       filename: "",
       script: "",
       metadata: {
-        name: "script-3",
+        name: "Shitty Script 4",
+        version: "v3.4.5",
       },
     },
   ],
-  // isUserscriptEnabled: (us) => us.id !== "3",
-  // toggleUserscript: action("toggleUserscript"),
-  // onSettingsClick: action("onSettingsclick"),
+  isUserscriptEnabled: (us) => us.id !== "3",
+  toggleUserscript: action("toggleUserscript"),
+  onSettingsClick: action("onSettingsclick"),
 };
