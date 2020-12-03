@@ -2,7 +2,7 @@ import React from "react";
 import { Meta, Story } from "@storybook/react/types-6-0";
 import { action } from "@storybook/addon-actions";
 
-import { getTestUserScript, getTestUserScripts } from "./utils";
+import { getTestUserscript, getTestUserscripts } from "./utils";
 import {
   Left,
   LeftProps,
@@ -20,14 +20,14 @@ export default {
 
 export const LeftDemo: Story<LeftProps> = (args) => <Left {...args} />;
 LeftDemo.args = {
-  userscripts: getTestUserScripts(),
+  userscripts: getTestUserscripts(),
   isUserscriptOpen: (us) => us.id === "1",
   onUserscriptClick: action("onUserscriptClick"),
 };
 
 export const CenterDemo: Story<CenterProps> = (args) => <Center {...args} />;
 CenterDemo.args = {
-  userscript: getTestUserScript(),
+  userscript: getTestUserscript(),
 };
 
 export const TopDemo: Story<TopProps> = (args) => <Top {...args} />;
@@ -39,5 +39,5 @@ TopDemo.args = {
 
 export const RightDemo: Story<RightProps> = (args) => <Right {...args} />;
 RightDemo.args = {
-  userscript: getTestUserScript(),
+  userscript: getTestUserscript(),
 };
