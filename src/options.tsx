@@ -1,6 +1,5 @@
 import React from "react";
-import cx from "classnames";
-import { Menu, Button, Input } from "antd";
+import { Menu, Button, Input, Descriptions, Alert, Typography } from "antd";
 import {
   ReloadOutlined,
   DownloadOutlined,
@@ -105,23 +104,14 @@ export interface RightProps {
 
 export const Right: React.FC<RightProps> = ({ userscript }) => {
   const [value, setValue] = React.useState("");
-  const [isMatch, setIsMatch] = React.useState<boolean | null>(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  let isMatch = false;
+  try {
     const match =
       userscript && userscript.metadata && userscript.metadata.match;
-    if (!match) {
-      return;
-    }
-
-    const matchPattern = new MatchPattern(match);
-    if (matchPattern.isMatch(value)) {
-      setIsMatch(true);
-    } else {
-      setIsMatch(false);
-    }
-  };
+    const matchPattern = match && new MatchPattern(match);
+    isMatch = matchPattern && matchPattern.isMatch(value);
+  } catch (e) {}
 
   if (!userscript) {
     return null;
@@ -129,28 +119,28 @@ export const Right: React.FC<RightProps> = ({ userscript }) => {
 
   return (
     <aside>
-      <h1>Metadata</h1>
-      <table>
-        <thead>
-          <tr>
-            <td>Name</td>
-            <td>Value</td>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.entries(userscript.metadata).map(([name, value]) => (
-            <tr>
-              <td>{name}</td>
-              <td>{value}</td>
-            </tr>
+      <Descriptions bordered title="Metadata" size="small">
+        {Object.entries(userscript.metadata).map(([name, value]) => (
+          <Descriptions.Item label={name}>{value}</Descriptions.Item>
+        ))}
+      </Descriptions>
+      <Typography.Title className={bem("right", "match")} level={5}>
+        Test Match Pattern
+      </Typography.Title>
+      <Input
+        placeholder="https://www.example.com/foo"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+      <div className={bem("right", "alert")}>
+        {value &&
+          value.length > 0 &&
+          (isMatch ? (
+            <Alert showIcon type="success" message="Pattern Matches!" />
+          ) : (
+            <Alert showIcon type="error" message="Not A Match!" />
           ))}
-        </tbody>
-      </table>
-      <form onSubmit={handleSubmit}>
-        <input value={value} onChange={(e) => setValue(e.target.value)} />
-        <button type="submit">Check</button>
-        {isMatch !== null && isMatch ? <p>Match</p> : <p>Not Match</p>}
-      </form>
+      </div>
     </aside>
   );
 };
