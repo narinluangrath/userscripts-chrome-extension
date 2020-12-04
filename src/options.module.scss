@@ -7,3 +7,15 @@
 .scriptName.isOpen {
   opacity: 1;
 }
+
+.top {
+  &__form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  &__input {
+    flex-grow: 1;
+  }
+}

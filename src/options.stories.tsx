@@ -32,6 +32,7 @@ CenterDemo.args = {
 
 export const TopDemo: Story<TopProps> = (args) => <Top {...args} />;
 TopDemo.args = {
+  fetching: false,
   gitRepoUrl: "https://github.com/narinluangrath/userscripts-chrome-extension",
   onRefreshClick: action("onRefreshClick"),
   handleGitRepoUrlSubmit: action("handleGitRepoUrlSubmit"),

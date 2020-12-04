@@ -1,13 +1,20 @@
 import React from "react";
 import cx from "classnames";
-import { Menu } from "antd";
+import { Menu, Button, Input } from "antd";
+import {
+  ReloadOutlined,
+  DownloadOutlined,
+  FileDoneOutlined,
+} from "@ant-design/icons";
 import SyntaxHighlighter from "react-syntax-highlighter";
 
-import { MatchPattern } from "./utils";
+import { MatchPattern, BEM } from "./utils";
 import { useGetStorage, useSetStorage, useUserscriptFiles } from "./hooks";
 import { REPO_KEY } from "./constants";
 import { Userscript } from "./types";
 import style from "./options.module.scss";
+
+const bem = new BEM(style).getter;
 
 export interface LeftProps {
   userscripts: Userscript[];
@@ -48,28 +55,47 @@ export const Center: React.FC<CenterProps> = ({ userscript }) =>
 export interface TopProps {
   gitRepoUrl: string;
   onRefreshClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  fetching: boolean;
   handleGitRepoUrlSubmit: (repo: string) => void;
 }
 
 export const Top: React.FC<TopProps> = ({
   gitRepoUrl,
   onRefreshClick,
+  fetching,
   handleGitRepoUrlSubmit,
 }) => {
   const [input, setInput] = React.useState(gitRepoUrl);
   return (
-    <aside>
-      <button onClick={onRefreshClick}>Refetch</button>
+    <div className={bem("top")}>
       <form
+        className={bem("top", "form")}
         onSubmit={(e) => {
           e.preventDefault();
           handleGitRepoUrlSubmit(input);
         }}
       >
-        <input value={input} onChange={(e) => setInput(e.target.value)} />
-        <button type="submit">Submit</button>
+        <Input
+          size="large"
+          className={bem("top", "input")}
+          prefix={<DownloadOutlined />}
+          placeholder="https://github.com/example-url.git"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <Button size="large" htmlType="submit" icon={<FileDoneOutlined />}>
+          Clone
+        </Button>
       </form>
-    </aside>
+      <Button
+        type="primary"
+        onClick={onRefreshClick}
+        icon={<ReloadOutlined />}
+        loading={fetching}
+      >
+        {fetching ? "Fetching" : "Refetch"}
+      </Button>
+    </div>
   );
 };
 
@@ -148,6 +174,7 @@ export const Options: React.FC = () => {
   return (
     <div>
       <Top
+        fetching={false}
         gitRepoUrl={repoUrl}
         onRefreshClick={refetch}
         handleGitRepoUrlSubmit={(repo) => setRepoUrl(REPO_KEY, repo)}
