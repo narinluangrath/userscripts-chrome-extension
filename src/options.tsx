@@ -1,6 +1,7 @@
 import React from "react";
 import cx from "classnames";
 import { Menu } from "antd";
+import SyntaxHighlighter from "react-syntax-highlighter";
 
 import { MatchPattern } from "./utils";
 import { useGetStorage, useSetStorage, useUserscriptFiles } from "./hooks";
@@ -38,8 +39,9 @@ export interface CenterProps {
 export const Center: React.FC<CenterProps> = ({ userscript }) =>
   userscript ? (
     <main>
-      <header>{userscript.metadata.name || userscript.filename}</header>
-      <code>{userscript.script}</code>
+      <SyntaxHighlighter showLineNumbers language="javascript">
+        {userscript.script}
+      </SyntaxHighlighter>
     </main>
   ) : null;
 
