@@ -1,5 +1,6 @@
 import React from "react";
 import cx from "classnames";
+import { Menu } from "antd";
 
 import { MatchPattern } from "./utils";
 import { useGetStorage, useSetStorage, useUserscriptFiles } from "./hooks";
@@ -9,34 +10,25 @@ import style from "./options.module.scss";
 
 export interface LeftProps {
   userscripts: Userscript[];
-  isUserscriptOpen: (us: Userscript) => boolean;
+  openUserscript: Userscript;
   onUserscriptClick: (us: Userscript) => void;
 }
 
 export const Left: React.FC<LeftProps> = ({
   userscripts,
-  isUserscriptOpen,
+  openUserscript,
   onUserscriptClick,
 }) => (
-  <aside>
-    <nav>
-      <ul>
-        {userscripts.map((us) => (
-          <li
-            key={us.id}
-            onClick={() => onUserscriptClick(us)}
-            className={cx(
-              style.scriptName,
-              isUserscriptOpen(us) && style.isOpen
-            )}
-          >
-            <code>{us.metadata.name || us.filename}</code>
-            <small>{us.metadata.version}</small>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  </aside>
+  <Menu
+    onClick={({ key }) =>
+      onUserscriptClick(userscripts.find(({ id }) => id === key))
+    }
+    selectedKeys={[openUserscript.id]}
+  >
+    {userscripts.map((us) => (
+      <Menu.Item key={us.id}>{us.metadata.name || us.filename}</Menu.Item>
+    ))}
+  </Menu>
 );
 
 export interface CenterProps {
@@ -145,7 +137,7 @@ export const Options: React.FC = () => {
     error,
   } = useUserscriptFiles(repoUrl);
   const [openId, setOpenId] = React.useState<string>(null);
-  const openUserScript = userscripts.find((us) => us.id === openId);
+  const openUserscript = userscripts.find((us) => us.id === openId);
 
   if (repoUrlFetching) {
     return <p>Loading repo url</p>;
@@ -164,11 +156,11 @@ export const Options: React.FC = () => {
         <>
           <Left
             userscripts={userscripts}
-            isUserscriptOpen={(us) => us.id === openId}
+            openUserscript={openUserscript}
             onUserscriptClick={(us) => setOpenId(us.id)}
           />
-          <Center userscript={openUserScript} />
-          <Right userscript={openUserScript} />
+          <Center userscript={openUserscript} />
+          <Right userscript={openUserscript} />
         </>
       )}
     </div>

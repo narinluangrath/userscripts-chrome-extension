@@ -21,7 +21,7 @@ export default {
 export const LeftDemo: Story<LeftProps> = (args) => <Left {...args} />;
 LeftDemo.args = {
   userscripts: getTestUserscripts(),
-  isUserscriptOpen: (us) => us.id === "1",
+  openUserscript: getTestUserscripts()[0],
   onUserscriptClick: action("onUserscriptClick"),
 };
 
