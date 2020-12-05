@@ -20,6 +20,7 @@ export default {
 
 export const LeftDemo: Story<LeftProps> = (args) => <Left {...args} />;
 LeftDemo.args = {
+  fetching: false,
   userscripts: getTestUserscripts(),
   openUserscript: getTestUserscripts()[0],
   onUserscriptClick: action("onUserscriptClick"),

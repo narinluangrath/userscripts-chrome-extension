@@ -8,6 +8,8 @@ import {
   Typography,
   Switch,
   Space,
+  Empty,
+  Spin,
 } from "antd";
 import {
   ReloadOutlined,
@@ -25,12 +27,14 @@ import style from "./options.module.scss";
 const bem = new BEM(style).getter;
 
 export interface LeftProps {
-  userscripts: Userscript[];
-  openUserscript: Userscript;
+  fetching: boolean;
+  userscripts?: Userscript[];
+  openUserscript?: Userscript;
   onUserscriptClick: (us: Userscript) => void;
 }
 
 export const Left: React.FC<LeftProps> = ({
+  fetching,
   userscripts,
   openUserscript,
   onUserscriptClick,
@@ -40,6 +44,11 @@ export const Left: React.FC<LeftProps> = ({
   const filtered = userscripts.filter((us) =>
     getName(us).toLowerCase().startsWith(search.toLowerCase())
   );
+
+  if (!userscripts || !userscripts.length) {
+    return <Empty description="No Userscripts!" />;
+  }
+
   return (
     <Space direction="vertical">
       <Input.Search
@@ -47,16 +56,20 @@ export const Left: React.FC<LeftProps> = ({
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      <Menu
-        onClick={({ key }) =>
-          onUserscriptClick(userscripts.find(({ id }) => id === key))
-        }
-        selectedKeys={[openUserscript.id]}
-      >
-        {filtered.map((us) => (
-          <Menu.Item key={us.id}>{getName(us)}</Menu.Item>
-        ))}
-      </Menu>
+      {fetching ? (
+        <Spin tip="Loading..." className={bem("left", "spinner")} />
+      ) : (
+        <Menu
+          onClick={({ key }) =>
+            onUserscriptClick(userscripts.find(({ id }) => id === key))
+          }
+          selectedKeys={[openUserscript && openUserscript.id].filter(Boolean)}
+        >
+          {filtered.map((us) => (
+            <Menu.Item key={us.id}>{getName(us)}</Menu.Item>
+          ))}
+        </Menu>
+      )}
     </Space>
   );
 };
@@ -210,6 +223,7 @@ export const Options: React.FC = () => {
       ) : (
         <>
           <Left
+            fetching={false}
             userscripts={userscripts}
             openUserscript={openUserscript}
             onUserscriptClick={(us) => setOpenId(us.id)}

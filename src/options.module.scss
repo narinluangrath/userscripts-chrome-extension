@@ -8,6 +8,13 @@
   opacity: 1;
 }
 
+.left {
+  &__spinner {
+    display: block;
+    margin: 20px auto;
+  }
+}
+
 .top {
   &__form {
     display: flex;
