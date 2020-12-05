@@ -10,11 +10,13 @@ import {
   Space,
   Empty,
   Spin,
+  Result,
 } from "antd";
 import {
   ReloadOutlined,
   DownloadOutlined,
   FileDoneOutlined,
+  SmileOutlined,
 } from "@ant-design/icons";
 import SyntaxHighlighter from "react-syntax-highlighter";
 
@@ -75,7 +77,7 @@ export const Left: React.FC<LeftProps> = ({
 };
 
 export interface CenterProps {
-  userscript: Userscript;
+  userscript?: Userscript;
 }
 
 export const Center: React.FC<CenterProps> = ({ userscript }) =>
@@ -85,7 +87,12 @@ export const Center: React.FC<CenterProps> = ({ userscript }) =>
         {userscript.script}
       </SyntaxHighlighter>
     </main>
-  ) : null;
+  ) : (
+    <Result
+      icon={<SmileOutlined />}
+      title="Select a userscript to get started!"
+    />
+  );
 
 export interface TopProps {
   gitRepoUrl: string;
