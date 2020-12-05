@@ -29,6 +29,7 @@ import style from "./options.module.scss";
 const bem = new BEM(style).getter;
 
 export interface LeftProps {
+  className?: string;
   fetching: boolean;
   userscripts?: Userscript[];
   openUserscript?: Userscript;
@@ -36,6 +37,7 @@ export interface LeftProps {
 }
 
 export const Left: React.FC<LeftProps> = ({
+  className,
   fetching,
   userscripts,
   openUserscript,
@@ -52,7 +54,7 @@ export const Left: React.FC<LeftProps> = ({
   }
 
   return (
-    <Space direction="vertical">
+    <Space direction="vertical" className={className}>
       <Input.Search
         size="large"
         value={search}
@@ -77,29 +79,36 @@ export const Left: React.FC<LeftProps> = ({
 };
 
 export interface CenterProps {
+  className?: string;
   gitRepoUrl?: string;
   userscript?: Userscript;
 }
 
-export const Center: React.FC<CenterProps> = ({ userscript, gitRepoUrl }) =>
-  userscript ? (
-    <main>
+export const Center: React.FC<CenterProps> = ({
+  className,
+  userscript,
+  gitRepoUrl,
+}) => (
+  <main className={className}>
+    {userscript ? (
       <SyntaxHighlighter showLineNumbers language="javascript">
         {userscript.script}
       </SyntaxHighlighter>
-    </main>
-  ) : (
-    <Result
-      icon={<SmileOutlined />}
-      title={
-        gitRepoUrl
-          ? "Select a userscript on the left"
-          : "Clone a git repo (above) to get started!"
-      }
-    />
-  );
+    ) : (
+      <Result
+        icon={<SmileOutlined />}
+        title={
+          gitRepoUrl
+            ? "Select a userscript on the left"
+            : "Clone a git repo (above) to get started!"
+        }
+      />
+    )}
+  </main>
+);
 
 export interface TopProps {
+  className?: string;
   error?: Error | string;
   gitRepoUrl: string;
   onRefreshClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -108,6 +117,7 @@ export interface TopProps {
 }
 
 export const Top: React.FC<TopProps> = ({
+  className,
   error,
   gitRepoUrl,
   onRefreshClick,
@@ -116,7 +126,7 @@ export const Top: React.FC<TopProps> = ({
 }) => {
   const [input, setInput] = React.useState(gitRepoUrl);
   return (
-    <div className={bem("top")}>
+    <div className={bem("top", null, null, className)}>
       <form
         className={bem("top", "form")}
         onSubmit={(e) => {
@@ -161,12 +171,14 @@ export const Top: React.FC<TopProps> = ({
 };
 
 export interface RightProps {
+  className?: string;
   userscript: Userscript;
   isUserscriptEnabled: boolean;
   setUserscriptEnabled(b: boolean): void;
 }
 
 export const Right: React.FC<RightProps> = ({
+  className,
   userscript,
   isUserscriptEnabled,
   setUserscriptEnabled,
@@ -186,10 +198,12 @@ export const Right: React.FC<RightProps> = ({
   }
 
   return (
-    <aside>
+    <aside className={className}>
       <Descriptions bordered title="Metadata" size="small">
         {Object.entries(userscript.metadata).map(([name, value]) => (
-          <Descriptions.Item label={name}>{value}</Descriptions.Item>
+          <Descriptions.Item key={name} label={name}>
+            {value}
+          </Descriptions.Item>
         ))}
       </Descriptions>
       <Typography.Title className={bem("right", "match")} level={5}>
@@ -220,48 +234,87 @@ export const Right: React.FC<RightProps> = ({
   );
 };
 
-export const Options: React.FC = () => {
+export interface OptionsProps {
+  setRepoUrl(url: string): void;
+  repoUrl?: string;
+  repoUrlFetching: boolean;
+  userscripts: Userscript[];
+  userscriptsRefetch(): void;
+  userscriptsFetching: boolean;
+  userscriptsError?: Error | string;
+  openUserscript?: Userscript;
+  onUserscriptClick(us: Userscript): void;
+  isOpenUserscriptEnabled?: boolean;
+  setIsOpenUserscriptEnabled?(): void;
+}
+
+const useOptionsState = (): OptionsProps => {
   const { setStorage: setRepoUrl } = useSetStorage();
   const { data: repoUrl, fetching: repoUrlFetching } = useGetStorage(REPO_KEY);
   const {
     userscripts,
-    refetch,
-    fetching: usFetching,
-    error,
+    refetch: userscriptsRefetch,
+    fetching: userscriptsFetching,
+    error: userscriptsError,
   } = useUserscriptFiles(repoUrl);
-  const [openId, setOpenId] = React.useState<string>(null);
-  const openUserscript = userscripts.find((us) => us.id === openId);
+  const [openUserscript, setOpenUserscript] = React.useState<Userscript>();
 
-  if (repoUrlFetching) {
-    return <p>Loading repo url</p>;
-  }
+  return {
+    setRepoUrl,
+    repoUrl,
+    repoUrlFetching,
+    userscripts,
+    userscriptsRefetch,
+    userscriptsFetching,
+    userscriptsError,
+    openUserscript,
+    onUserscriptClick: setOpenUserscript,
+    isOpenUserscriptEnabled: true, // @TODO
+    setIsOpenUserscriptEnabled: () => null, // @TODO
+  };
+};
 
+export const Options: React.FC<OptionsProps> = ({
+  setRepoUrl,
+  repoUrl,
+  repoUrlFetching,
+  userscripts,
+  userscriptsRefetch,
+  userscriptsFetching,
+  userscriptsError,
+  openUserscript,
+  onUserscriptClick,
+  isOpenUserscriptEnabled,
+  setIsOpenUserscriptEnabled,
+}) => {
   return (
-    <div>
+    <div className={bem("layout")}>
       <Top
-        fetching={false}
+        error={userscriptsError}
         gitRepoUrl={repoUrl}
-        onRefreshClick={refetch}
-        handleGitRepoUrlSubmit={(repo) => setRepoUrl(REPO_KEY, repo)}
+        onRefreshClick={userscriptsRefetch}
+        fetching={repoUrlFetching}
+        handleGitRepoUrlSubmit={setRepoUrl}
+        className={bem("layout", "top")}
       />
-      {usFetching ? (
-        <p>Fetching user scripts...</p>
-      ) : (
-        <>
-          <Left
-            fetching={false}
-            userscripts={userscripts}
-            openUserscript={openUserscript}
-            onUserscriptClick={(us) => setOpenId(us.id)}
-          />
-          <Center userscript={openUserscript} />
-          <Right
-            userscript={openUserscript}
-            isUserscriptEnabled={false}
-            setUserscriptEnabled={() => undefined}
-          />
-        </>
-      )}
+      <Left
+        fetching={userscriptsFetching}
+        openUserscript={openUserscript}
+        userscripts={userscripts}
+        onUserscriptClick={onUserscriptClick}
+        className={bem("layout", "left")}
+      />
+      <Center
+        gitRepoUrl={repoUrl}
+        userscript={openUserscript}
+        className={bem("layout", "center")}
+      />
+      <Right
+        userscript={openUserscript}
+        isUserscriptEnabled={isOpenUserscriptEnabled}
+        setUserscriptEnabled={setIsOpenUserscriptEnabled}
+        className={bem("layout", "right")}
+      />
     </div>
   );
 };

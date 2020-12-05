@@ -1,13 +1,3 @@
-.scriptName {
-  display: block;
-  cursor: pointer;
-  opacity: 0.5;
-}
-
-.scriptName.isOpen {
-  opacity: 1;
-}
-
 .left {
   &__spinner {
     display: block;
@@ -44,5 +34,40 @@
 
   &__alert {
     margin-top: 10px;
+  }
+}
+
+.layout {
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 20px;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 200px 1fr 300px;
+  grid-template-rows: 100px 1fr;
+  grid-template-areas:
+    "left top top"
+    "left center right";
+
+  &__top {
+    grid-area: top;
+    overflow: auto;
+  }
+
+  &__left {
+    grid-area: left;
+    overflow: auto;
+  }
+
+  &__center {
+    grid-area: center;
+    overflow: auto;
+  }
+
+  &__right {
+    grid-area: right;
+    overflow: auto;
   }
 }
