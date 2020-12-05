@@ -35,7 +35,16 @@ const Wrapper: React.FC = () => {
     return <p>Fetching...</p>;
   }
 
-  return <Popup userscripts={userscripts} />;
+  return (
+    <Popup
+      // @TODO
+      fetching={false}
+      isUserscriptEnabled={() => false}
+      toggleUserscript={() => {}}
+      onSettingsClick={() => {}}
+      userscripts={userscripts}
+    />
+  );
 };
 
 ReactDOM.render(<Wrapper />, document.getElementById("root"));
