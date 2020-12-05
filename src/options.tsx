@@ -145,8 +145,6 @@ export const Top: React.FC<TopProps> = ({
         <Button size="large" htmlType="submit" icon={<FileDoneOutlined />}>
           Clone
         </Button>
-      </form>
-      <div className={bem("top", "last-row")}>
         <Button
           type="primary"
           onClick={onRefreshClick}
@@ -156,16 +154,10 @@ export const Top: React.FC<TopProps> = ({
         >
           {fetching ? "Fetching" : "Refetch"}
         </Button>
-        {error && (
-          <Alert
-            closable
-            showIcon
-            type="error"
-            message={error.toString()}
-            className={bem("top", "error")}
-          />
-        )}
-      </div>
+      </form>
+      {error && (
+        <Alert closable showIcon type="error" message={error.toString()} />
+      )}
     </div>
   );
 };

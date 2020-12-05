@@ -15,15 +15,6 @@
   &__input {
     flex-grow: 1;
   }
-
-  &__last-row {
-    display: flex;
-    gap: 10px;
-  }
-
-  &__error {
-    flex-grow: 1;
-  }
 }
 
 .right {
@@ -41,9 +32,9 @@
   display: grid;
   grid-gap: 20px;
   grid-template-columns: 200px 1fr 300px;
-  grid-template-rows: 100px 1fr;
+  grid-template-rows: auto 1fr;
   grid-template-areas:
-    "left top top"
+    "top top top"
     "left center right";
 
   &__top {
