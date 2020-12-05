@@ -77,10 +77,11 @@ export const Left: React.FC<LeftProps> = ({
 };
 
 export interface CenterProps {
+  gitRepoUrl?: string;
   userscript?: Userscript;
 }
 
-export const Center: React.FC<CenterProps> = ({ userscript }) =>
+export const Center: React.FC<CenterProps> = ({ userscript, gitRepoUrl }) =>
   userscript ? (
     <main>
       <SyntaxHighlighter showLineNumbers language="javascript">
@@ -90,11 +91,16 @@ export const Center: React.FC<CenterProps> = ({ userscript }) =>
   ) : (
     <Result
       icon={<SmileOutlined />}
-      title="Select a userscript to get started!"
+      title={
+        gitRepoUrl
+          ? "Select a userscript on the left"
+          : "Clone a git repo (above) to get started!"
+      }
     />
   );
 
 export interface TopProps {
+  error?: Error | string;
   gitRepoUrl: string;
   onRefreshClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   fetching: boolean;
@@ -102,6 +108,7 @@ export interface TopProps {
 }
 
 export const Top: React.FC<TopProps> = ({
+  error,
   gitRepoUrl,
   onRefreshClick,
   fetching,
@@ -129,14 +136,26 @@ export const Top: React.FC<TopProps> = ({
           Clone
         </Button>
       </form>
-      <Button
-        type="primary"
-        onClick={onRefreshClick}
-        icon={<ReloadOutlined />}
-        loading={fetching}
-      >
-        {fetching ? "Fetching" : "Refetch"}
-      </Button>
+      <div className={bem("top", "last-row")}>
+        <Button
+          type="primary"
+          onClick={onRefreshClick}
+          icon={<ReloadOutlined />}
+          loading={fetching}
+          size="large"
+        >
+          {fetching ? "Fetching" : "Refetch"}
+        </Button>
+        {error && (
+          <Alert
+            closable
+            showIcon
+            type="error"
+            message={error.toString()}
+            className={bem("top", "error")}
+          />
+        )}
+      </div>
     </div>
   );
 };

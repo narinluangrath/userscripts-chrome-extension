@@ -25,6 +25,15 @@
   &__input {
     flex-grow: 1;
   }
+
+  &__last-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__error {
+    flex-grow: 1;
+  }
 }
 
 .right {
