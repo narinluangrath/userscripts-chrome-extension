@@ -65,11 +65,5 @@
   },
   "browserslist": [
     "last 1 Chrome version"
-  ],
-  "notes": {
-    "browserslist": "https://flaviocopes.com/parcel-regeneratorruntime-not-defined/",
-    "parcel-bundler": "https://github.com/parcel-bundler/parcel/issues/39#issuecomment-443061650",
-    "font": "https://fonts.google.com/specimen/Rubik?preview.size=16&vfonly=true&selection.family=Rubik:wght@300;400;500#standard-styles",
-    "font-injection": "https://stackoverflow.com/questions/12015074/adding-font-face-stylesheet-rules-to-chrome-extension"
-  }
+  ]
 }
