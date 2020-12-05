@@ -7,6 +7,7 @@ import {
   Alert,
   Typography,
   Switch,
+  Space,
 } from "antd";
 import {
   ReloadOutlined,
@@ -33,18 +34,32 @@ export const Left: React.FC<LeftProps> = ({
   userscripts,
   openUserscript,
   onUserscriptClick,
-}) => (
-  <Menu
-    onClick={({ key }) =>
-      onUserscriptClick(userscripts.find(({ id }) => id === key))
-    }
-    selectedKeys={[openUserscript.id]}
-  >
-    {userscripts.map((us) => (
-      <Menu.Item key={us.id}>{us.metadata.name || us.filename}</Menu.Item>
-    ))}
-  </Menu>
-);
+}) => {
+  const [search, setSearch] = React.useState("");
+  const getName = (us: Userscript) => us.metadata.name || us.filename;
+  const filtered = userscripts.filter((us) =>
+    getName(us).toLowerCase().startsWith(search.toLowerCase())
+  );
+  return (
+    <Space direction="vertical">
+      <Input.Search
+        size="large"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <Menu
+        onClick={({ key }) =>
+          onUserscriptClick(userscripts.find(({ id }) => id === key))
+        }
+        selectedKeys={[openUserscript.id]}
+      >
+        {filtered.map((us) => (
+          <Menu.Item key={us.id}>{getName(us)}</Menu.Item>
+        ))}
+      </Menu>
+    </Space>
+  );
+};
 
 export interface CenterProps {
   userscript: Userscript;
