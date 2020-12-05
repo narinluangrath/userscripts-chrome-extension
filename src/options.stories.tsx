@@ -41,4 +41,6 @@ TopDemo.args = {
 export const RightDemo: Story<RightProps> = (args) => <Right {...args} />;
 RightDemo.args = {
   userscript: getTestUserscript(),
+  isUserscriptEnabled: true,
+  setUserscriptEnabled: action("setUserscriptEnabled"),
 };

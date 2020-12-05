@@ -1,5 +1,13 @@
 import React from "react";
-import { Menu, Button, Input, Descriptions, Alert, Typography } from "antd";
+import {
+  Menu,
+  Button,
+  Input,
+  Descriptions,
+  Alert,
+  Typography,
+  Switch,
+} from "antd";
 import {
   ReloadOutlined,
   DownloadOutlined,
@@ -100,9 +108,15 @@ export const Top: React.FC<TopProps> = ({
 
 export interface RightProps {
   userscript: Userscript;
+  isUserscriptEnabled: boolean;
+  setUserscriptEnabled(b: boolean): void;
 }
 
-export const Right: React.FC<RightProps> = ({ userscript }) => {
+export const Right: React.FC<RightProps> = ({
+  userscript,
+  isUserscriptEnabled,
+  setUserscriptEnabled,
+}) => {
   const [value, setValue] = React.useState("");
 
   let isMatch = false;
@@ -141,6 +155,13 @@ export const Right: React.FC<RightProps> = ({ userscript }) => {
             <Alert showIcon type="error" message="Not A Match!" />
           ))}
       </div>
+      <Typography.Title className={bem("right", "match")} level={5}>
+        Enable/Disable
+      </Typography.Title>
+      <Switch
+        checked={isUserscriptEnabled}
+        onChange={(b) => setUserscriptEnabled(b)}
+      />
     </aside>
   );
 };
@@ -179,7 +200,11 @@ export const Options: React.FC = () => {
             onUserscriptClick={(us) => setOpenId(us.id)}
           />
           <Center userscript={openUserscript} />
-          <Right userscript={openUserscript} />
+          <Right
+            userscript={openUserscript}
+            isUserscriptEnabled={false}
+            setUserscriptEnabled={() => undefined}
+          />
         </>
       )}
     </div>
