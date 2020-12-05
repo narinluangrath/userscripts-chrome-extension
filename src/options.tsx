@@ -3,7 +3,7 @@ import {
   Menu,
   Button,
   Input,
-  Descriptions,
+  Table,
   Alert,
   Typography,
   Switch,
@@ -197,40 +197,55 @@ export const Right: React.FC<RightProps> = ({
     return null;
   }
 
+  const columns = [
+    {
+      key: "property",
+      title: "Property",
+      render: (_, entry) => entry[0],
+    },
+    {
+      key: "value",
+      title: "Value",
+      render: (_, entry) => entry[1],
+    },
+  ];
+
   return (
-    <aside className={className}>
-      <Descriptions bordered title="Metadata" size="small">
-        {Object.entries(userscript.metadata).map(([name, value]) => (
-          <Descriptions.Item key={name} label={name}>
-            {value}
-          </Descriptions.Item>
-        ))}
-      </Descriptions>
-      <Typography.Title className={bem("right", "match")} level={5}>
-        Test Match Pattern
-      </Typography.Title>
-      <Input
-        placeholder="https://www.example.com/foo"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
-      <div className={bem("right", "alert")}>
-        {value &&
-          value.length > 0 &&
-          (isMatch ? (
-            <Alert showIcon type="success" message="Pattern Matches!" />
-          ) : (
-            <Alert showIcon type="error" message="Not A Match!" />
-          ))}
+    <Space direction="vertical" size="middle" className={className}>
+      <div>
+        <Typography.Title level={5}>Metadata</Typography.Title>
+        <Table
+          pagination={false}
+          size="small"
+          columns={columns}
+          dataSource={Object.entries(userscript.metadata)}
+        />
       </div>
-      <Typography.Title className={bem("right", "match")} level={5}>
-        Enable/Disable
-      </Typography.Title>
-      <Switch
-        checked={isUserscriptEnabled}
-        onChange={(b) => setUserscriptEnabled(b)}
-      />
-    </aside>
+      <div>
+        <Typography.Title level={5}>Test Match Pattern</Typography.Title>
+        <Input
+          placeholder="https://www.example.com/foo"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <div className={bem("right", "alert")}>
+          {value &&
+            value.length > 0 &&
+            (isMatch ? (
+              <Alert showIcon type="success" message="Pattern Matches!" />
+            ) : (
+              <Alert showIcon type="error" message="Not A Match!" />
+            ))}
+        </div>
+      </div>
+      <div>
+        <Typography.Title level={5}>Enable/Disable</Typography.Title>
+        <Switch
+          checked={isUserscriptEnabled}
+          onChange={(b) => setUserscriptEnabled(b)}
+        />
+      </div>
+    </Space>
   );
 };
 
