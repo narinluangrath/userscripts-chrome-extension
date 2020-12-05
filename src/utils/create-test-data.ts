@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+
 import { Userscript } from "../types";
 
 const script = `
