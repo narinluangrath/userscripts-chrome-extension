@@ -19,6 +19,7 @@ import {
   SmileOutlined,
 } from "@ant-design/icons";
 import SyntaxHighlighter from "react-syntax-highlighter";
+import "antd/dist/antd.css";
 
 import { MatchPattern, BEM } from "./utils";
 import { Userscript } from "./types";

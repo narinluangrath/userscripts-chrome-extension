@@ -63,7 +63,7 @@
     "isomorphic-git": "^1.7.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-syntax-highlighter": "^15.3.1",
+    "react-syntax-highlighter": "v9.0.1",
     "userscript-meta": "^1.0.1"
   },
   "browserslist": [
