@@ -20,18 +20,23 @@ const parseFile = (file: string, filename: string): Userscript => ({
   metadata: getMetadata(file),
 });
 
-export const getUserscripts = (repo: string): Promise<Userscript[]> => {
-  let filenames; // Temp variable to store filenames
+export const getUserscripts = async (
+  repo: string,
+  refetch?: boolean
+): Promise<Userscript[]> => {
   const gitRepo = new GitRepo(repo);
-  return gitRepo
-    .clone()
-    .then(() => gitRepo.fetch())
-    .then(() => gitRepo.pull())
-    .then(() => gitRepo.readdir(SCRIPTS_PATH))
-    .then((fls) => {
-      filenames = fls;
-      const fullPaths = fls.map((p) => `${SCRIPTS_PATH}/${p}`);
-      return Promise.all(fullPaths.map((p) => gitRepo.readFile(p)));
-    })
-    .then((files) => files.map((f, i) => parseFile(f, filenames[i])));
+  const isCloned = await gitRepo.isCloned();
+
+  if (!isCloned) {
+    await gitRepo.clone();
+  }
+
+  if (refetch) {
+    await gitRepo.pull();
+  }
+
+  const filenames = await gitRepo.readdir(SCRIPTS_PATH);
+  const fullPaths = filenames.map((f) => `${SCRIPTS_PATH}/${f}`);
+  const files = await Promise.all(fullPaths.map((p) => gitRepo.readFile(p)));
+  return files.map((f, i) => parseFile(f, filenames[i]));
 };

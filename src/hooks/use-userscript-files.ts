@@ -15,17 +15,21 @@ export const useUserscriptFiles = (repo: string): UserscriptFiles => {
   const [error, setError] = React.useState<Error>(null);
   const [fetching, setFetching] = React.useState(true);
 
-  const refetch = React.useCallback(() => {
-    if (!repo) {
-      return;
-    }
-    setFetching(true);
-    getUserscripts(repo)
-      .then(setUserscripts)
-      .catch(setError)
-      .finally(() => setFetching(false));
-  }, [repo]);
-  React.useEffect(refetch, [refetch]);
+  const refetch = React.useCallback(
+    (refetch = true) => {
+      if (!repo) {
+        return;
+      }
+      setFetching(true);
+      getUserscripts(repo, refetch)
+        .then(setUserscripts)
+        .catch(setError)
+        .finally(() => setFetching(false));
+    },
+    [repo]
+  );
+
+  React.useEffect(() => void refetch(false), [refetch]);
 
   return { userscripts, refetch, fetching, error };
 };
