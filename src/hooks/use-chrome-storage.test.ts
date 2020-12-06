@@ -4,12 +4,17 @@ import { useChromeStorage } from "./use-chrome-storage";
 
 const mockKey = "key";
 const mockValue = "value";
+const mockListener = jest.fn();
 
-const mockChr = {
+const mockChr = ({
   storage: {
     sync: {
       get: (key, cb) => void cb({ [mockKey]: mockValue }),
       set: (obj, cb) => void cb(),
+    },
+    onChanged: {
+      addListener: mockListener,
+      removeListener: () => undefined,
     },
   },
   runtime: {
@@ -17,9 +22,14 @@ const mockChr = {
       message: undefined,
     },
   },
-} as typeof chrome;
+} as unknown) as typeof chrome;
 
 describe("useChromeStorage", () => {
+  it("listens to external changes in state", () => {
+    renderHook(() => useChromeStorage(mockKey, mockChr));
+    expect(mockListener).toHaveBeenCalled();
+  });
+
   it("gets the stored value", () => {
     const { result } = renderHook(() => useChromeStorage(mockKey, mockChr));
     expect(result.current.error).toBe(null);

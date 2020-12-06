@@ -7,6 +7,8 @@ interface ChromeStorageState<T> {
   setState(value: T): void;
 }
 
+const areaName = "sync";
+
 export const useChromeStorage = <T>(
   key: string,
   chr?: typeof chrome
@@ -14,11 +16,11 @@ export const useChromeStorage = <T>(
   const [fetching, setFetching] = React.useState(true);
   const [state, _setState] = React.useState<T>(null);
   const [error, setError] = React.useState<string>(null);
+  chr = chr || chrome;
 
   const refetch = React.useCallback(() => {
     setFetching(true);
-    chr = chr || chrome;
-    chr.storage.sync.get([key], (result) => {
+    chr.storage[areaName].get([key], (result) => {
       const error = chr?.runtime?.lastError?.message;
       if (error) {
         setError(error);
@@ -32,8 +34,7 @@ export const useChromeStorage = <T>(
   const setState = React.useCallback(
     (value: T) => {
       setFetching(true);
-      chr = chr || chrome;
-      chr.storage.sync.set({ [key]: value }, () => {
+      chr.storage[areaName].set({ [key]: value }, () => {
         const error = chr?.runtime?.lastError?.message;
         if (error) {
           setError(error);
@@ -45,6 +46,20 @@ export const useChromeStorage = <T>(
     },
     [key, chr]
   );
+
+  React.useEffect(() => {
+    const handleChange = (changes, _areaName) => {
+      if (_areaName !== areaName) {
+        return;
+      }
+      const change = changes[key];
+      if (change) {
+        _setState(change.newValue);
+      }
+    };
+    chr.storage.onChanged.addListener(handleChange);
+    return () => chr.storage.onChanged.removeListener(handleChange);
+  }, [chr, key]);
 
   React.useEffect(refetch, [refetch]);
 
