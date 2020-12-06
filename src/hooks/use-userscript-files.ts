@@ -17,9 +17,6 @@ export const useUserscriptFiles = (repo: string): UserscriptFiles => {
 
   const refetch = React.useCallback(
     (refetch = true) => {
-      if (!repo) {
-        return;
-      }
       setFetching(true);
       getUserscripts(repo, refetch)
         .then(setUserscripts)
