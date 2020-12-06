@@ -1,30 +1,48 @@
 import { renderHook, act } from "@testing-library/react-hooks";
 
-import { useGetStorage, useSetStorage } from "./use-chrome-storage";
+import { useChromeStorage } from "./use-chrome-storage";
 
-const key = "key";
-const value = "value";
+const mockKey = "key";
+const mockValue = "value";
 
-const chr = {
+const mockChr = {
   storage: {
     sync: {
-      get: (key, cb) => cb({ [key]: value }),
-      set: (obj, cb) => cb(),
+      get: (key, cb) => void cb({ [mockKey]: mockValue }),
+      set: (obj, cb) => void cb(),
+    },
+  },
+  runtime: {
+    lastError: {
+      message: undefined,
     },
   },
 } as typeof chrome;
 
-describe("useGetStorage", () => {
+describe("useChromeStorage", () => {
   it("gets the stored value", () => {
-    const { result } = renderHook(() => useGetStorage(key, chr));
+    const { result } = renderHook(() => useChromeStorage(mockKey, mockChr));
+    expect(result.current.error).toBe(null);
     expect(result.current.fetching).toBe(false);
-    expect(result.current.data).toBe(value);
+    expect(result.current.state).toBe(mockValue);
   });
-});
 
-describe("useSetStorage", () => {
   it("sets the stored value", () => {
-    const { result } = renderHook(() => useSetStorage(chr));
-    act(() => result.current.setStorage(key, value));
+    const newMockValue = "newMockValue";
+    const { result } = renderHook(() => useChromeStorage(mockKey, mockChr));
+    act(() => result.current.setState(newMockValue));
+    expect(result.current.error).toBe(null);
+    expect(result.current.fetching).toBe(false);
+    expect(result.current.state).toBe(newMockValue);
+  });
+
+  it("sets the error flag and doesn't set state", () => {
+    const error = "error";
+    const copyMockChr = { ...mockChr };
+    copyMockChr.runtime.lastError.message = error;
+    const { result } = renderHook(() => useChromeStorage(mockKey, copyMockChr));
+    expect(result.current.error).toBe(error);
+    expect(result.current.fetching).toBe(false);
+    expect(result.current.state).toBe(null);
   });
 });

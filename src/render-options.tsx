@@ -1,14 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { useGetStorage, useSetStorage, useUserscriptFiles } from "./hooks";
+import { useChromeStorage, useUserscriptFiles } from "./hooks";
 import { REPO_KEY } from "./constants";
 import { Userscript } from "./types";
 import { Options, OptionsProps } from "./Options";
 
 const useOptionsState = (): OptionsProps => {
-  const { setStorage: setRepoUrl } = useSetStorage();
-  const { data: repoUrl, fetching: repoUrlFetching } = useGetStorage(REPO_KEY);
+  const {
+    state: repoUrl,
+    setState: setRepoUrl,
+    fetching: repoUrlFetching,
+  } = useChromeStorage<string>(REPO_KEY);
   const {
     userscripts,
     refetch: userscriptsRefetch,

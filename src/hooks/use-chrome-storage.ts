@@ -1,48 +1,57 @@
 import React from "react";
 
-interface GetStorage<T> {
+interface ChromeStorageState<T> {
   fetching: boolean;
-  data: T | null;
-  refetch: () => void;
+  error: string | null;
+  state: T | null;
+  setState(value: T): void;
 }
 
-export const useGetStorage = <T>(
+export const useChromeStorage = <T>(
   key: string,
   chr?: typeof chrome
-): GetStorage<T> => {
+): ChromeStorageState<T> => {
   const [fetching, setFetching] = React.useState(true);
-  const [data, setData] = React.useState<T>(null);
+  const [state, _setState] = React.useState<T>(null);
+  const [error, setError] = React.useState<string>(null);
 
   const refetch = React.useCallback(() => {
+    setFetching(true);
     chr = chr || chrome;
     chr.storage.sync.get([key], (result) => {
-      setData(result[key]);
+      const error = chr?.runtime?.lastError?.message;
+      if (error) {
+        setError(error);
+      } else {
+        _setState(result[key]);
+      }
       setFetching(false);
     });
   }, [key, chr]);
-  React.useEffect(refetch, [refetch]);
 
-  return { fetching, data, refetch };
-};
-
-interface SetStorage<T> {
-  fetching: boolean;
-  setStorage: (key: string, value: T) => void;
-}
-
-export const useSetStorage = <T>(chr?: typeof chrome): SetStorage<T> => {
-  const [fetching, setFetching] = React.useState(false);
-
-  const setStorage = React.useCallback(
-    (key, value) => {
-      chr = chr || chrome;
+  const setState = React.useCallback(
+    (value: T) => {
       setFetching(true);
+      chr = chr || chrome;
       chr.storage.sync.set({ [key]: value }, () => {
+        const error = chr?.runtime?.lastError?.message;
+        if (error) {
+          setError(error);
+        } else {
+          _setState(value);
+        }
         setFetching(false);
       });
     },
-    [chr]
+    [key, chr]
   );
 
-  return { fetching, setStorage };
+  React.useEffect(refetch, [refetch]);
+
+  return {
+    fetching,
+    error,
+    state,
+    setState,
+  };
 };

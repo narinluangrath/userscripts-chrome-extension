@@ -4,12 +4,14 @@ import ReactDOM from "react-dom";
 import { REPO_KEY } from "./constants";
 import { filterUserscripts } from "./utils";
 import { Userscript } from "./types";
-import { useUserscriptFiles, useGetStorage } from "./hooks";
+import { useUserscriptFiles, useChromeStorage } from "./hooks";
 import { Popup } from "./popup";
 
 const Wrapper: React.FC = () => {
   const [userscripts, setUserscript] = React.useState<Userscript[]>([]);
-  const { data: repo, fetching: repoFetching } = useGetStorage(REPO_KEY);
+  const { state: repo, fetching: repoFetching } = useChromeStorage<string>(
+    REPO_KEY
+  );
   const { userscripts: allUserscripts, fetching, error } = useUserscriptFiles(
     repo
   );
