@@ -2,9 +2,9 @@ import { MatchPattern } from "./match-pattern";
 import { Userscript } from "../types";
 
 export const filterUserscripts = (
-  userscripts: Userscript[],
-  url: string
-): Userscript[] => {
+  userscripts?: Userscript[],
+  url?: string
+): Userscript[] | null => {
   if (!(userscripts && url)) {
     return null;
   }

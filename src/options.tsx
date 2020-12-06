@@ -44,13 +44,14 @@ export const Left: React.FC<LeftProps> = ({
 }) => {
   const [search, setSearch] = React.useState("");
   const getName = (us: Userscript) => us.metadata.name || us.filename;
-  const filtered = userscripts.filter((us) =>
-    getName(us).toLowerCase().startsWith(search.toLowerCase())
-  );
 
   if (!userscripts || !userscripts.length) {
     return <Empty description="No Userscripts!" />;
   }
+
+  const filtered = userscripts.filter((us) =>
+    getName(us).toLowerCase().startsWith(search.toLowerCase())
+  );
 
   return (
     <Space direction="vertical" className={className}>
