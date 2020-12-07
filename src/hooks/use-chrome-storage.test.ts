@@ -9,7 +9,7 @@ const mockListener = jest.fn();
 const mockChr = ({
   storage: {
     sync: {
-      get: (key, cb) => void cb({ [mockKey]: mockValue }),
+      get: (key, cb) => void cb({ [mockKey]: JSON.stringify(mockValue) }),
       set: (obj, cb) => void cb(),
     },
     onChanged: {

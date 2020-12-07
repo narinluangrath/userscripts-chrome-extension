@@ -8,6 +8,8 @@ interface ChromeStorageState<T> {
 }
 
 const areaName = "sync";
+const serialize = JSON.stringify;
+const deserialize = JSON.parse;
 
 export const useChromeStorage = <T>(
   key: string,
@@ -25,7 +27,7 @@ export const useChromeStorage = <T>(
       if (error) {
         setError(error);
       } else {
-        _setState(result[key]);
+        _setState(deserialize(result[key]));
       }
       setFetching(false);
     });
@@ -34,7 +36,7 @@ export const useChromeStorage = <T>(
   const setState = React.useCallback(
     (value: T) => {
       setFetching(true);
-      chr.storage[areaName].set({ [key]: value }, () => {
+      chr.storage[areaName].set({ [key]: serialize(value) }, () => {
         const error = chr?.runtime?.lastError?.message;
         if (error) {
           setError(error);
@@ -54,7 +56,7 @@ export const useChromeStorage = <T>(
       }
       const change = changes[key];
       if (change) {
-        _setState(change.newValue);
+        _setState(deserialize(change.newValue));
       }
     };
     chr.storage.onChanged.addListener(handleChange);
