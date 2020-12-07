@@ -67,10 +67,10 @@ export const Left: React.FC<LeftProps> = ({
           onClick={({ key }) =>
             onUserscriptClick(userscripts.find(({ id }) => id === key))
           }
-          selectedKeys={[openUserscript && openUserscript.id].filter(Boolean)}
+          selectedKeys={[openUserscript?.id].filter(Boolean)}
         >
           {filtered.map((us) => (
-            <Menu.Item key={us.id}>{getName(us)}</Menu.Item>
+            <Menu.Item key={us?.id}>{getName(us)}</Menu.Item>
           ))}
         </Menu>
       )}
@@ -166,14 +166,14 @@ export interface RightProps {
   className?: string;
   userscript: Userscript;
   isUserscriptEnabled: boolean;
-  setUserscriptEnabled(b: boolean): void;
+  toggleUserscriptEnabled(b: boolean): void;
 }
 
 export const Right: React.FC<RightProps> = ({
   className,
   userscript,
   isUserscriptEnabled,
-  setUserscriptEnabled,
+  toggleUserscriptEnabled,
 }) => {
   const [value, setValue] = React.useState("");
 
@@ -234,7 +234,7 @@ export const Right: React.FC<RightProps> = ({
         <Typography.Title level={5}>Enable/Disable</Typography.Title>
         <Switch
           checked={isUserscriptEnabled}
-          onChange={(b) => setUserscriptEnabled(b)}
+          onChange={toggleUserscriptEnabled}
         />
       </div>
     </Space>
@@ -252,7 +252,7 @@ export interface OptionsProps {
   openUserscript?: Userscript;
   onUserscriptClick(us: Userscript): void;
   isOpenUserscriptEnabled?: boolean;
-  setIsOpenUserscriptEnabled?(): void;
+  toggleOpenUserscriptEnabled?(): void;
 }
 
 export const Options: React.FC<OptionsProps> = ({
@@ -266,7 +266,7 @@ export const Options: React.FC<OptionsProps> = ({
   openUserscript,
   onUserscriptClick,
   isOpenUserscriptEnabled,
-  setIsOpenUserscriptEnabled,
+  toggleOpenUserscriptEnabled,
 }) => {
   return (
     <div className={bem("layout")}>
@@ -293,7 +293,7 @@ export const Options: React.FC<OptionsProps> = ({
       <Right
         userscript={openUserscript}
         isUserscriptEnabled={isOpenUserscriptEnabled}
-        setUserscriptEnabled={setIsOpenUserscriptEnabled}
+        toggleUserscriptEnabled={toggleOpenUserscriptEnabled}
         className={bem("layout", "right")}
       />
     </div>

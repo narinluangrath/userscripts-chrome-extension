@@ -1,7 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { useChromeStorage, useUserscriptFiles } from "./hooks";
+import {
+  useChromeStorage,
+  useUserscriptFiles,
+  useUserscriptState,
+} from "./hooks";
 import { REPO_KEY } from "./constants";
 import { Userscript } from "./types";
 import { Options, OptionsProps } from "./Options";
@@ -11,6 +15,7 @@ const useOptionsState = (): OptionsProps => {
     state: repoUrl,
     setState: setRepoUrl,
     fetching: repoUrlFetching,
+    error: repoUrlError,
   } = useChromeStorage<string>(REPO_KEY);
   const {
     userscripts,
@@ -18,6 +23,7 @@ const useOptionsState = (): OptionsProps => {
     fetching: userscriptsFetching,
     error: userscriptsError,
   } = useUserscriptFiles(repoUrl);
+  const { isEnabled, toggleEnabled, fetching, error } = useUserscriptState();
   const [openUserscript, setOpenUserscript] = React.useState<Userscript>();
 
   return {
@@ -30,8 +36,8 @@ const useOptionsState = (): OptionsProps => {
     userscriptsError,
     openUserscript,
     onUserscriptClick: setOpenUserscript,
-    isOpenUserscriptEnabled: true, // @TODO
-    setIsOpenUserscriptEnabled: () => null, // @TODO
+    isOpenUserscriptEnabled: isEnabled(openUserscript),
+    toggleOpenUserscriptEnabled: () => toggleEnabled(openUserscript),
   };
 };
 

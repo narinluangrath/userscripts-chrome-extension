@@ -3,7 +3,12 @@ import ReactDOM from "react-dom";
 
 import { REPO_KEY } from "./constants";
 import { filterUserscripts } from "./utils";
-import { useUserscriptFiles, useTabUrl, useChromeStorage } from "./hooks";
+import {
+  useUserscriptFiles,
+  useTabUrl,
+  useChromeStorage,
+  useUserscriptState,
+} from "./hooks";
 import { Popup } from "./popup";
 
 const Wrapper: React.FC = () => {
@@ -11,15 +16,19 @@ const Wrapper: React.FC = () => {
   const repoUrl = useChromeStorage<string>(REPO_KEY);
   const userscriptFiles = useUserscriptFiles(repoUrl.state);
   const filtered = filterUserscripts(userscriptFiles.userscripts, tabUrl.url);
+  const userscriptState = useUserscriptState();
   const fetching =
-    tabUrl.fetching || repoUrl.fetching || userscriptFiles.fetching;
+    tabUrl.fetching ||
+    repoUrl.fetching ||
+    userscriptFiles.fetching ||
+    userscriptState.fetching;
 
   return (
     <Popup
       // @TODO
       fetching={fetching}
-      isUserscriptEnabled={() => false}
-      toggleUserscript={() => {}}
+      isUserscriptEnabled={userscriptState.isEnabled}
+      toggleUserscript={userscriptState.toggleEnabled}
       onSettingsClick={() => {}}
       userscripts={filtered}
     />

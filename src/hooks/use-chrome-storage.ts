@@ -9,7 +9,12 @@ interface ChromeStorageState<T> {
 
 const areaName = "sync";
 const serialize = JSON.stringify;
-const deserialize = JSON.parse;
+const deserialize = (str) => {
+  if (str === undefined) {
+    return str;
+  }
+  return JSON.parse(str);
+};
 
 export const useChromeStorage = <T>(
   key: string,
