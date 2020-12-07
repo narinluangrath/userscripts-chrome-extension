@@ -63,7 +63,7 @@ export const Popup: React.FC<PopupProps> = ({
           className={bem("popup", "spinner")}
         />
       ) : userscripts.length < 1 ? (
-        <Empty description="No Userscripts Created" />
+        <Empty description="No userscripts match current URL" />
       ) : (
         <Table
           size="small"
