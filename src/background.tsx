@@ -16,7 +16,7 @@ const runUserscript = (us: Userscript, tabId: number): void => {
 };
 
 const Wrapper: React.FC = () => {
-  const { state: repo } = useChromeStorage(REPO_KEY);
+  const { state: repo } = useChromeStorage<string>(REPO_KEY);
   const { userscripts } = useUserscriptFiles(repo);
   const { isEnabled } = useUserscriptState();
 

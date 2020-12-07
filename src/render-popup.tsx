@@ -25,11 +25,10 @@ const Wrapper: React.FC = () => {
 
   return (
     <Popup
-      // @TODO
       fetching={fetching}
       isUserscriptEnabled={userscriptState.isEnabled}
       toggleUserscript={userscriptState.toggleEnabled}
-      onSettingsClick={() => {}}
+      onSettingsClick={() => chrome.runtime.openOptionsPage()}
       userscripts={filtered}
     />
   );
