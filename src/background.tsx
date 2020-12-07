@@ -1,8 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { REPO_KEY, DISABLED_KEY } from "./constants";
+import { REPO_KEY } from "./constants";
 import { Userscript } from "./types";
-import { useChromeStorage, useUserscriptFiles } from "./hooks";
+import {
+  useChromeStorage,
+  useUserscriptFiles,
+  useUserscriptState,
+} from "./hooks";
 import { filterUserscripts } from "./utils";
 
 const runUserscript = (us: Userscript, tabId: number): void => {
@@ -14,6 +18,7 @@ const runUserscript = (us: Userscript, tabId: number): void => {
 const Wrapper: React.FC = () => {
   const { state: repo } = useChromeStorage(REPO_KEY);
   const { userscripts } = useUserscriptFiles(repo);
+  const { isEnabled } = useUserscriptState();
 
   React.useEffect(() => {
     // https://stackoverflow.com/questions/36808309/chrome-extension-page-update-twice-then-removed-on-youtube/36818991#36818991
@@ -22,12 +27,14 @@ const Wrapper: React.FC = () => {
       if (!(tabId && url)) {
         return;
       }
-      const filtered = filterUserscripts(userscripts, url) || [];
+      let filtered = filterUserscripts(userscripts, url) || [];
+      filtered = filtered.filter(isEnabled);
       filtered.forEach((us) => runUserscript(us, tabId));
     };
     chrome.webNavigation.onCompleted.addListener(handleCompleted);
-    () => chrome.webNavigation.onCompleted.removeListener(handleCompleted);
-  }, [userscripts]);
+    return () =>
+      chrome.webNavigation.onCompleted.removeListener(handleCompleted);
+  }, [userscripts, isEnabled]);
 
   return null;
 };
