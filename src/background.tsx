@@ -23,8 +23,9 @@ const Wrapper: React.FC = () => {
   React.useEffect(() => {
     // https://stackoverflow.com/questions/36808309/chrome-extension-page-update-twice-then-removed-on-youtube/36818991#36818991
     const handleCompleted = (details) => {
-      const { tabId, url } = details;
-      if (!(tabId && url)) {
+      const { tabId, url, frameId } = details;
+      // https://developer.chrome.com/extensions/webNavigation#frame_ids
+      if (!(tabId && url && frameId === 0)) {
         return;
       }
       let filtered = filterUserscripts(userscripts, url) || [];
