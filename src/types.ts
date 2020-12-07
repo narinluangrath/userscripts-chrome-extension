@@ -29,7 +29,8 @@ export type SupportedMetadata = {
   description?: string;
   match?: string;
   name?: string;
-  "run-at"?: "document-end" | "document-start" | "document-idle";
+  // https://developer.chrome.com/extensions/tabs#method-executeScript
+  "run-at"?: "document_end" | "document_start" | "document_idle";
   version?: string;
 };
 
