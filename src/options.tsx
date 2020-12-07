@@ -125,6 +125,10 @@ export const Top: React.FC<TopProps> = ({
   handleGitRepoUrlSubmit,
 }) => {
   const [input, setInput] = React.useState(gitRepoUrl);
+
+  React.useEffect(() => {
+    setInput(gitRepoUrl);
+  }, [gitRepoUrl]);
   return (
     <div className={bem("top", null, null, className)}>
       <form
