@@ -12,7 +12,12 @@ import { filterUserscripts } from "./utils";
 const runUserscript = (us: Userscript, tabId: number): void => {
   const code = us.script;
   const runAt = us.metadata["run-at"] || "document_idle";
-  chrome.tabs.executeScript(tabId, { code, runAt });
+
+  if (us.filename.endsWith(".js")) {
+    chrome.tabs.executeScript(tabId, { code, runAt });
+  } else if (us.filename.endsWith(".css")) {
+    chrome.tabs.insertCSS(tabId, { code, runAt });
+  }
 };
 
 const Wrapper: React.FC = () => {
