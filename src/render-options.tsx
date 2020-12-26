@@ -8,7 +8,7 @@ import {
 } from "./hooks";
 import { REPO_KEY } from "./constants";
 import { Userscript } from "./types";
-import { Options, OptionsProps } from "./Options";
+import { Options, OptionsProps } from "./options";
 
 const useOptionsState = (): OptionsProps => {
   const {
